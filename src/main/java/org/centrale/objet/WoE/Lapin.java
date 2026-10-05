@@ -23,7 +23,7 @@ public class Lapin extends Monstre{
     }
     
     public void aff_lettre(){
-        System.out.print(" 😄 ");
+        System.out.print(" R ");
     }
     
 }

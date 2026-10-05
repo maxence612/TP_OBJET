@@ -6,6 +6,7 @@ package org.centrale.objet.WoE;
 import java.util.Random;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 /**
  *
@@ -23,12 +24,12 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private List<Creature> creatures = new ArrayList<>();
+    private List<Creature> creatures = new LinkedList<>();
     
     
     public World(){
-        largeur=15;
-        longueur=20;
+        largeur=50;
+        longueur=50;
         carte = new ElementDeJeu[largeur][longueur];
         
        }
@@ -74,7 +75,7 @@ public class World {
                pt = new Point2D(i,j);
        
                if(occupe(pt)){
-                   System.out.print(" + "); 
+                   carte[i][j].aff_lettre();
                }
                else{
                    System.out.print(" . "); 
@@ -102,13 +103,12 @@ public class World {
         return cmb;
     }
     
-    public void creerPersoAlea(){
-        long debutN = System.nanoTime();
+    public void creerPersoAlea(int nombre_perso){
+        
         Random rd = new Random();
         int nombre_race;
-        int nombre_perso = rd.nextInt(100);
         for (int i=0;i<nombre_perso;i++){
-          nombre_race = rd.nextInt(4);
+          nombre_race = rd.nextInt(5);
         if (nombre_race==0){
             creatures.add(new Guerrier());   
         }
@@ -125,9 +125,7 @@ public class World {
             creatures.add(new Lapin());   
         }
         }
-        long finN = System.nanoTime();
-        System.out.println("Temps ecoule en ns : " + (finN-debutN));
-        
+               
         
     }
     
@@ -140,6 +138,13 @@ public class World {
         System.out.println(total_pdv);
         System.out.println("-----");
     }
+    
+   public void mesure_temps(){
+       long debutN = System.nanoTime();
+       total_pdv();
+       long finN = System.nanoTime();
+       System.out.println("Temps ecoule en ms : " + (finN-debutN)/1000);
+   }
 }
 
 
