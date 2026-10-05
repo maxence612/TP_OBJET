@@ -22,7 +22,11 @@ public class Loup extends Monstre{
         super();
     }
     
-       public void combattre(Creature C){
+    public void combattre(Creature C){
        
    }
+    
+    public void aff_lettre(){
+        System.out.print(" L ");
+    }
 }

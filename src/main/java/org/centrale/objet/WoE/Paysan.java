@@ -22,4 +22,7 @@ public class Paysan extends Personnage{
        super();
     }
     
+    public void aff_lettre(){
+        System.out.print(" P ");
+    }
 }

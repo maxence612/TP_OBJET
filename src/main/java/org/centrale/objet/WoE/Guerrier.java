@@ -27,4 +27,8 @@ public class Guerrier extends Personnage{
        
    }
    
+    public void aff_lettre(){
+        System.out.print(" G ");
+    }
+   
 }

@@ -38,7 +38,9 @@ public class Objet extends ElementDeJeu{
     }
 
 
-    
+    public void aff_lettre(){
+        System.out.print(" O ");
+    }
     
 }
 

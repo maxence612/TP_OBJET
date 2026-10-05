@@ -31,7 +31,7 @@ public abstract class ElementDeJeu {
         this.pos = new Point2D();
     }
     
-    public void aff_lettre(){}
+    public abstract void aff_lettre();
     
     
 }

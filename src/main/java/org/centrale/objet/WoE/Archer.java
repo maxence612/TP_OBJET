@@ -56,4 +56,7 @@ public class Archer extends Personnage{
        
    }
    
+    public void aff_lettre(){
+        System.out.print(" A ");
+    }
 }

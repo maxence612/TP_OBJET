@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author maxen
  */
-public class Monstre extends Creature{
+public abstract class Monstre extends Creature{
 
     public Monstre(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos) {
       super(ptVie,degAtt,ptPar,pageAtt,pagePar,pos);

@@ -6,7 +6,7 @@ import java.util.Random;
  * @author Corentin GODARD et Maxence SCHWERER
  */
 
-public class Personnage extends Creature{
+public abstract class Personnage extends Creature{
     /**
      * Nom du personnage
      */
