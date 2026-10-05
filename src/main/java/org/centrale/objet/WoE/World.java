@@ -106,6 +106,11 @@ public class World {
         guillaumeT.affiche();
     }
     
+    public int peuplage(){
+        Random genRand= new Random();
+        int cmb =genRand.nextInt(10);
+        return cmb;
+    }
 }
 
 
