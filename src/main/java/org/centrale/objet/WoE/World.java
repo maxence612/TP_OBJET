@@ -103,6 +103,7 @@ public class World {
     }
     
     public void creerPersoAlea(){
+        long debutN = System.nanoTime();
         Random rd = new Random();
         int nombre_race;
         int nombre_perso = rd.nextInt(100);
@@ -124,6 +125,8 @@ public class World {
             creatures.add(new Lapin());   
         }
         }
+        long finN = System.nanoTime();
+        System.out.println("Temps ecoule en ns : " + (finN-debutN));
         
         
     }
