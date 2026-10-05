@@ -6,7 +6,7 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author maxen
+ * @author Maxence Schwerer et Corentin Godard
  */
 public class Guerrier extends Personnage{
 
