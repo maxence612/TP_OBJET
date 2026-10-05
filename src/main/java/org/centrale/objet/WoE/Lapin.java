@@ -22,4 +22,8 @@ public class Lapin extends Monstre{
         super();
     }
     
+    public void aff_lettre(){
+        System.out.print(" L ");
+    }
+    
 }

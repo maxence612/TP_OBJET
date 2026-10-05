@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class ElementDeJeu {
+public abstract class ElementDeJeu {
         /**
      * Position de l'objet 
      */
@@ -30,6 +30,8 @@ public class ElementDeJeu {
     public ElementDeJeu() {
         this.pos = new Point2D();
     }
+    
+    public void aff_lettre(){}
     
     
 }

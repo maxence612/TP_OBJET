@@ -23,28 +23,13 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private List<ElementDeJeu> elements = new ArrayList<>();
+    private List<Creature> creatures = new ArrayList<>();
     
     
     public World(){
-        largeur=8;
-        longueur=12;
+        largeur=15;
+        longueur=20;
         carte = new ElementDeJeu[largeur][longueur];
-        
-        robin = new Archer();
-        elements.add(robin);
-        guillaumeT = new Archer();
-        elements.add(guillaumeT);
-        peon = new Paysan();
-        elements.add(peon);
-        bugs1 = new Lapin(); 
-        elements.add(bugs1);
-        bugs2 = new Lapin();
-        elements.add(bugs2);
-        grosBill = new Guerrier();
-        elements.add(grosBill);
-        wolfie = new Loup();
-        elements.add(wolfie);
         
        }
     
@@ -53,19 +38,24 @@ public class World {
     }
     
     public void creerMondeAlea(){
+        
+        
+    }
+    
+    public void placerObjets(){
         Random genRand= new Random();
         int x=genRand.nextInt(this.largeur);
         int y=genRand.nextInt(this.longueur);
         Point2D pt = new Point2D(x,y);
         
-        for(int i=0; i<elements.size();i++){
+        for(int i=0; i<creatures.size();i++){
             while(occupe(pt)){
                 x=genRand.nextInt(this.largeur);
                 y=genRand.nextInt(this.longueur);
                 pt = new Point2D(x,y);
             }
-            elements.get(i).setPos(pt);
-            carte[x][y]=elements.get(i);
+            creatures.get(i).setPos(pt);
+            carte[x][y]=creatures.get(i);
         }
         
     }
@@ -119,24 +109,33 @@ public class World {
         for (int i=0;i<nombre_perso;i++){
           nombre_race = rd.nextInt(4);
         if (nombre_race==0){
-            elements.add(new Guerrier());   
+            creatures.add(new Guerrier());   
         }
         if (nombre_race==1){
-            elements.add(new Paysan());  
-            
+            creatures.add(new Paysan());  
         }
        if (nombre_race==2){
-            elements.add(new Archer());   
+            creatures.add(new Archer());   
         }
         if (nombre_race==3){
-            elements.add(new Loup());   
+            creatures.add(new Loup());   
         }
         if (nombre_race==4){
-            elements.add(new Lapin());   
+            creatures.add(new Lapin());   
         }
         }
         
         
+    }
+    
+    public void total_pdv(){
+        int total_pdv=0;
+        for(int i = 0; i< creatures.size(); i++){
+            total_pdv += creatures.get(i).getPtVie();
+        }
+        System.out.println("-----");
+        System.out.println(total_pdv);
+        System.out.println("-----");
     }
 }
 
