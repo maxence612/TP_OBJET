@@ -111,6 +111,33 @@ public class World {
         int cmb =genRand.nextInt(10);
         return cmb;
     }
+    
+    public void creerPersoAlea(){
+        Random rd = new Random();
+        int nombre_race;
+        int nombre_perso = rd.nextInt(100);
+        for (int i=0;i<nombre_perso;i++){
+          nombre_race = rd.nextInt(4);
+        if (nombre_race==0){
+            elements.add(new Guerrier());   
+        }
+        if (nombre_race==1){
+            elements.add(new Paysan());  
+            
+        }
+       if (nombre_race==2){
+            elements.add(new Archer());   
+        }
+        if (nombre_race==3){
+            elements.add(new Loup());   
+        }
+        if (nombre_race==4){
+            elements.add(new Lapin());   
+        }
+        }
+        
+        
+    }
 }
 
 
