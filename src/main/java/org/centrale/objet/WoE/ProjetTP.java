@@ -18,7 +18,6 @@ public class ProjetTP {
         monde.placerObjets();
         monde.afficheWorld();
         monde.mesure_temps();
-        monde.mesure_temps();
         monde.deplacement();
     }
 }
