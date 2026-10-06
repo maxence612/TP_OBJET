@@ -16,7 +16,7 @@ public class Epee extends Objet{
     private Integer degat;
  
 
-
+  
     public void setDegat(Integer degat) {
         this.degat = degat;
     }
@@ -25,6 +25,10 @@ public class Epee extends Objet{
         return degat;
     }
 
+    /**
+     *
+     * @param degat points de degat de l'arme
+     */
     public Epee(Integer degat){
         super();
         this.degat = degat;

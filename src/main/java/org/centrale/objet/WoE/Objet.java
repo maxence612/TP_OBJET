@@ -37,7 +37,10 @@ public class Objet extends ElementDeJeu{
         this.durabilite=0;
     }
 
-
+        /**
+    * Affiche la lettre représentant le l'objet sur la carte.
+    *
+     */
     public void aff_lettre(){
         System.out.print(" O ");
     }

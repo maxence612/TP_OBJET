@@ -2,7 +2,7 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author maxen
+ * @author Maxence SCHWERER et Corentin GODARD
  */
 public class PotionSoin extends Objet{
      /**
