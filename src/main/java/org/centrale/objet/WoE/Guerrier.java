@@ -4,6 +4,8 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 /**
  *
  * @author Maxence Schwerer et Corentin Godard
@@ -35,9 +37,25 @@ public class Guerrier extends Personnage{
         super();
     }
 
- 
+     /**
+    * Permet de combattre une créature
+    *
+     */
    public void combattre(Creature C){
-       
+       // Combat Rapproché
+       if (this.getPos().distance(C.getPos())==1){
+           Random genRand= new Random();
+            int x=genRand.nextInt(101);
+            if (x > this.getPageAtt()){
+                return;
+            }
+            else {
+             int y =genRand.nextInt(101);
+             if (y<=C.getPagePar()){
+                C.setPtVie(C.getPtVie()-this.getDegAtt()+C.getPtPar());
+            }
+            }
+       }
    }
     /**
     * Affiche la lettre représentant le guerrier sur la carte.

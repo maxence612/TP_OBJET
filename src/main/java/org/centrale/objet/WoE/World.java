@@ -30,8 +30,8 @@ public class World {
     * Définit la taille du monde.
      */
     public World(){
-        largeur=1500;
-        longueur=1500;
+        largeur=50;
+        longueur=50;
         carte = new ElementDeJeu[largeur][longueur];
         
        }

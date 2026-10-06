@@ -4,6 +4,8 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 /**
  *
  * @author Corentin Godard et Maxence Schwerer
@@ -52,13 +54,32 @@ public class Archer extends Personnage{
     public void setNbFleches(int nbFleches) {
         this.nbFleches = nbFleches;
     }
+    
+    /**
+    * Permet de combattre une créature
+    *
+     */
    public void combattre(Creature C){
-       
+       // Combat Rapproché
+       if (this.getPos().distance(C.getPos())==1){
+           Random genRand= new Random();
+            int x=genRand.nextInt(101);
+            if (x > this.getPageAtt()){
+                return;
+            }
+            else {
+             int y =genRand.nextInt(101);
+             if (y<=C.getPagePar()){
+                C.setPtVie(C.getPtVie()-this.getDegAtt()+C.getPtPar());
+            }
+            }
+       }
    }
    /**
     * Affiche la lettre représentant l'archer sur la carte.
     *
      */
+    
     public void aff_lettre(){
         System.out.print(" A ");
     }
