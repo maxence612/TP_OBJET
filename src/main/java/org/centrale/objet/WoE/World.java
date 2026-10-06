@@ -24,7 +24,7 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private List<Creature> creatures = new LinkedList<>();
+    private List<Creature> creatures;
     
     
     public World(){
@@ -104,7 +104,7 @@ public class World {
     }
     
     public void creerPersoAlea(int nombre_perso){
-        
+        creatures = new ArrayList<>();
         Random rd = new Random();
         int nombre_race;
         for (int i=0;i<nombre_perso;i++){
@@ -129,7 +129,7 @@ public class World {
         
     }
     
-    public void total_pdv(){
+    public void total_pdv_taille(){
         int total_pdv=0;
         for(int i = 0; i< creatures.size(); i++){
             total_pdv += creatures.get(i).getPtVie();
@@ -139,11 +139,37 @@ public class World {
         System.out.println("-----");
     }
     
+    public void total_pdv_iterateur(){
+        int total_pdv=0;
+        for(Creature c : creatures){
+            total_pdv += c.getPtVie();
+        }
+        System.out.println("-----");
+        System.out.println(total_pdv);
+        System.out.println("-----");
+    }
+    
+    
    public void mesure_temps(){
-       long debutN = System.nanoTime();
-       total_pdv();
-       long finN = System.nanoTime();
-       System.out.println("Temps ecoule en ms : " + (finN-debutN)/1000);
+       System.out.println("===== Avec la taille ====");  
+       for(int i= 100; i<=100000;i*=10){
+            creerPersoAlea(i);
+            long debutN = System.nanoTime();
+            
+            total_pdv_taille();
+            long finN = System.nanoTime();
+            System.out.println("Avec "+ i +" elements = en micro seconde : " + (finN-debutN)/1000);  
+       }
+       System.out.println("============================");  
+       System.out.println("===== Avec un itérateur ====");
+       for(int i= 100; i<=100000;i*=10){
+            creerPersoAlea(i);
+            long debutN = System.nanoTime();
+            total_pdv_iterateur();
+            long finN = System.nanoTime();
+            System.out.println("Avec "+ i +" elements = en micro seconde : " + (finN-debutN)/1000);  
+       }
+
    }
 }
 
