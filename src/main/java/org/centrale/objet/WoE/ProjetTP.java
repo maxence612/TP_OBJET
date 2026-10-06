@@ -20,5 +20,6 @@ public class ProjetTP {
         monde.mesure_temps();
         monde.mesure_temps();
         monde.deplacement();
+        monde.deplacement();
     }
 }
