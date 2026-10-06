@@ -150,6 +150,11 @@ public class World {
         System.out.println(total_pdv);
         System.out.println("-----");
     }
+    
+    
+    
+    
+    
        /**
     * Mesure le temps pris par une fonction pour s'exécuter.
      */ 
