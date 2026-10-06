@@ -14,9 +14,10 @@ public class ProjetTP {
         System.out.println("Ok");
         World monde = new World();
         
-        monde.creerPersoAlea(1000000);
+        monde.creerPersoAlea(100);
         monde.placerObjets();
         monde.afficheWorld();
         monde.mesure_temps();
+        monde.deplacement();
     }
 }
