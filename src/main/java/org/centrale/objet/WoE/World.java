@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 /**
  *
- * @author conco
+ * @author Maxence Schwerer et Corentin Godard
  */
 public class World {
     public Archer robin ;
@@ -26,14 +26,18 @@ public class World {
     private ElementDeJeu[][] carte;
     private List<Creature> creatures;
     
-    
+        /**
+    * Définit la taille du monde.
+     */
     public World(){
         largeur=50;
         longueur=50;
         carte = new ElementDeJeu[largeur][longueur];
         
        }
-    
+        /**
+    * Indique si une case du monde est occupée.
+     */
     private boolean occupe(Point2D p){
         return carte[p.getX()][p.getY()] != null;
     }
@@ -42,7 +46,9 @@ public class World {
         
         
     }
-    
+        /**
+    * Permet de placer tous les entités de jeu sur la carte.
+     */
     public void placerObjets(){
         Random genRand= new Random();
         int x=genRand.nextInt(this.largeur);
@@ -66,7 +72,9 @@ public class World {
         
         System.out.println("Fin du tour !");
     }
-    
+        /**
+    * Génère la "carte" permettant d'afficher le monde.
+     */
     public void afficheWorld(){
         Point2D pt;
         
@@ -102,7 +110,9 @@ public class World {
         int cmb =genRand.nextInt(10);
         return cmb;
     }
-    
+        /**
+    * Créé le nombre de personnages souhaité
+     */
     public void creerPersoAlea(int nombre_perso){
         creatures = new ArrayList<>();
         Random rd = new Random();
@@ -128,8 +138,10 @@ public class World {
                
         
     }
-    
-    public void total_pdv_taille(){
+        /**
+    * Calcul le total de point des vies des personnages en jeu.
+     */
+    public void total_pdv(){
         int total_pdv=0;
         for(int i = 0; i< creatures.size(); i++){
             total_pdv += creatures.get(i).getPtVie();
@@ -138,18 +150,9 @@ public class World {
         System.out.println(total_pdv);
         System.out.println("-----");
     }
-    
-    public void total_pdv_iterateur(){
-        int total_pdv=0;
-        for(Creature c : creatures){
-            total_pdv += c.getPtVie();
-        }
-        System.out.println("-----");
-        System.out.println(total_pdv);
-        System.out.println("-----");
-    }
-    
-    
+       /**
+    * Mesure le temps pris par une fonction pour s'exécuter.
+     */ 
    public void mesure_temps(){
        System.out.println("===== Avec la taille ====");  
        for(int i= 100; i<=100000;i*=10){
