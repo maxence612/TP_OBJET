@@ -19,5 +19,6 @@ public class ProjetTP {
         monde.afficheWorld();
         monde.mesure_temps();
         monde.deplacement();
+        monde.deplacement();
     }
 }
