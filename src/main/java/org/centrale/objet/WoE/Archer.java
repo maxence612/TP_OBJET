@@ -55,7 +55,10 @@ public class Archer extends Personnage{
    public void combattre(Creature C){
        
    }
-   
+   /**
+    * Affiche la lettre représentant l'archer sur la carte.
+    *
+     */
     public void aff_lettre(){
         System.out.print(" A ");
     }

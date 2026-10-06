@@ -6,7 +6,7 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author maxen
+ * @author Maxence SCHWERER et Corentin GODARD
  */
 public class Point2D {
 
@@ -46,7 +46,10 @@ public class Point2D {
     public void setY(int y) {
         this.y = y;
     }
-
+        /**
+    * Translate un Point2D.
+    *
+     */
     public void translate(int dx, int dy){
         x=x+dx;
         y=y+dx;
@@ -57,12 +60,18 @@ public class Point2D {
         this.y=y;
                
     }
-    
+         /**
+    * Calcule la distance entre deux points 2D.
+    *
+     */   
  public float distance(Point2D p){
         return (float) Math.sqrt( Math.pow(this.x - p.getX(), 2) + Math.pow(this.y - p.getY(), 2) );
     }
 
-    
+         /**
+    * Indique si deux Point2D sont égaux.
+    *
+     */   
     public boolean equals(Point2D p){
         return(this.x==p.getX() && this.y==p.getY());       
     }

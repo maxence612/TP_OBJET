@@ -6,7 +6,7 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author maxen
+ * @author Maxence SCHWERER et Corentin GODARD
  */
 public class ProjetTP {
 
@@ -14,7 +14,7 @@ public class ProjetTP {
         System.out.println("Ok");
         World monde = new World();
         
-        monde.creerPersoAlea(100);
+        monde.creerPersoAlea(1000000);
         monde.placerObjets();
         monde.afficheWorld();
         monde.mesure_temps();
