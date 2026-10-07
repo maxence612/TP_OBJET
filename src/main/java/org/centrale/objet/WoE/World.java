@@ -20,7 +20,8 @@ public class World {
     public Lapin bugs2;
     public Guerrier grosBill;
     public Loup wolfie;
-    
+    public PotionSoin potion1;
+
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
@@ -101,20 +102,18 @@ public class World {
         Point2D pos2 = new Point2D(2,1);
         robin = new Archer();
         guillaumeT = new Archer();
-        robin.affiche();
-        guillaumeT.affiche();
-        robin.deplace();
-        robin.affiche();
-        guillaumeT.affiche();
-        guillaumeT.deplace();
-        robin.affiche();
-        guillaumeT.affiche();
         guillaumeT.setPos(pos);
         robin.setPos(pos2);
         robin.affiche();
         guillaumeT.affiche();
         System.out.println("Distance entre les deux personnages : " + robin.getPos().distance(guillaumeT.getPos()));
+        System.out.println(guillaumeT.getNbFleches());
         guillaumeT.combattre(robin);
+        System.out.println(guillaumeT.getNbFleches());
+        System.out.println(guillaumeT.getPtVie());
+        potion1 = new PotionSoin();
+        potion1.utiliser(guillaumeT);
+        System.out.println(guillaumeT.getPtVie());
     }
   
     

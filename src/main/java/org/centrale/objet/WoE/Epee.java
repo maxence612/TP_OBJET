@@ -41,7 +41,17 @@ public class Epee extends Objet{
         this.degat=0;
     }
 
+    public void aff_lettre(){
+        System.out.print(" E ");
+    }
 
+    public void utiliser(Creature c){
+        c.setDegAtt(c.getDegAtt()+this.degat);
+        setDurabilite(getDurabilite()-1);
+        if (getDurabilite()==0){
+            System.out.println("L'épée est cassée");
+        }
+    }
     
     
 }

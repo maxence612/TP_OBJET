@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class Objet extends ElementDeJeu{
+public abstract class Objet extends ElementDeJeu{
 
         /**
      * Durabilité de l'objet
@@ -34,16 +34,16 @@ public class Objet extends ElementDeJeu{
 
     public Objet() {
         super();
-        this.durabilite=0;
+        this.durabilite=2;
     }
 
         /**
     * Affiche la lettre représentant le l'objet sur la carte.
     *
      */
-    public void aff_lettre(){
-        System.out.print(" O ");
-    }
+    public abstract void aff_lettre();
+
+    public abstract void utiliser(Creature c);
     
 }
 

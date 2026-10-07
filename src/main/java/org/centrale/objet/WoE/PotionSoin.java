@@ -17,7 +17,7 @@ public class PotionSoin extends Objet{
 
     public PotionSoin() {
         super();
-        this.pvSoigne=0;
+        this.pvSoigne=40;
     }
 
     public Integer getPvSoigne() {
@@ -28,6 +28,16 @@ public class PotionSoin extends Objet{
         this.pvSoigne = pVsoigne;
     }
     
-    
+    public void aff_lettre(){
+        System.out.print(" P ");
+    }
+
+    public void utiliser(Creature c){
+        c.setPtVie(c.getPtVie()+this.pvSoigne);
+        setDurabilite(getDurabilite()-1);
+        if (getDurabilite()==0){
+            System.out.println("La potion est vide");
+        }
+    }
 }
 
