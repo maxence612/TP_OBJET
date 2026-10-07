@@ -54,11 +54,16 @@ public class Archer extends Personnage{
     public void setNbFleches(int nbFleches) {
         this.nbFleches = nbFleches;
     }
-          
+       /**
+     *
+     * @param C créature à attaquer
+     * @throws Exception si l'archer n'a plus de flèches
+     * Permet à l'archer d'attaquer une créature, que ce soit à distance ou au corps à corps, en fonction de la distance entre l'archer et la créature.
+     */       
    public void combattre(Creature C){
        // Combat Rapproché
        if (this.getPos().distance(C.getPos())==1){
-           System.out.println("Combat entre "+ this.getNom()+" et la créature");
+           System.out.println("Combat au corps à corps entre "+ this.getNom()+" et la créature");
            Random genRand= new Random();
             int x=genRand.nextInt(100);
             if (x > this.getPageAtt()){
@@ -78,7 +83,38 @@ public class Archer extends Personnage{
             }
        }
        else{
-        System.out.println("Combat à rapproché impossible, la distance entre les deux personnages est de : "+this.getPos().distance(C.getPos()));
+           // Combat à distance
+           if (this.getPos().distance(C.getPos())<=this.getDistAttMax()){
+               if (this.nbFleches>0){
+                   System.out.println("Combat à distance entre "+ this.getNom()+" et la créature");
+                   Random genRand= new Random();
+                    int x=genRand.nextInt(100);
+                    if (x > this.getPageAtt()){
+                        System.out.println("La créature n'a pas perdu des points de vie");
+                        return;
+                    }
+                    else {
+                     int y =genRand.nextInt(100);
+                     if (y<=C.getPagePar()){
+                        C.setPtVie(C.getPtVie()-this.getDegAtt()+C.getPtPar());
+                        System.out.println("La créature a perdu des points de vie");
+                    
+                    }
+                    else {
+                            System.out.println("La créature a paré l'attaque");
+                        }
+                    }
+                   this.nbFleches--;
+               }
+               else{
+                   System.out.println("L'archer n'a plus de flèches pour attaquer la créature");
+               }
+           }
+           else{
+               System.out.println("Combat à distance impossible, la distance entre les deux personnages est de : "+this.getPos().distance(C.getPos()));
+           }
+
+
        }
    }
    /**

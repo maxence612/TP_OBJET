@@ -42,7 +42,10 @@ public class World {
         
         
     }
-    
+    /**
+ *
+ * Sert à placer les créatures du monde sur la carte
+ */
     public void placerObjets(){
         Random genRand= new Random();
         int x=genRand.nextInt(this.largeur);
@@ -67,6 +70,10 @@ public class World {
         System.out.println("Fin du tour !");
     }
     
+    /**
+ *
+ * Permet d'afficher le monde dans la console, en affichant les lettres représentant les créatures et les objets sur la carte.
+ */
     public void afficheWorld(){
         Point2D pt;
         
@@ -85,10 +92,13 @@ public class World {
            System.out.println();
         }
     }
-    
+    /**
+ *
+ * Permet de déplacer les créatures du monde, en appelant la méthode deplacement() de chaque créature.
+ */
         public void deplacement(){
         Point2D pos = new Point2D(1,2);
-        Point2D pos2 = new Point2D(1,1);
+        Point2D pos2 = new Point2D(2,1);
         robin = new Archer();
         guillaumeT = new Archer();
         robin.affiche();
@@ -114,6 +124,11 @@ public class World {
         return cmb;
     }
     
+    /**
+ *
+ * Permet de créer un certain nombre de créatures aléatoires, en fonction du nombre passé en paramètre.
+ * @param nombre_perso le nombre de créatures à créer
+ */
     public void creerPersoAlea(int nombre_perso){
         creatures = new ArrayList<>();
         Random rd = new Random();
@@ -139,7 +154,10 @@ public class World {
                
         
     }
-    
+    /**
+ *
+ * Permet de mesurer le temps d'exécution de la méthode total_pdv_taille() et total_pdv_iterateur() pour différents nombres de créatures.
+ */
     public void total_pdv_taille(){
         int total_pdv=0;
         for(int i = 0; i< creatures.size(); i++){
@@ -160,7 +178,10 @@ public class World {
         System.out.println("-----");
     }
     
-    
+    /**
+ *
+ * Permet de mesurer le temps d'exécution de la méthode total_pdv_taille() et total_pdv_iterateur() pour différents nombres de créatures.
+ */
    public void mesure_temps(){
        System.out.println("===== Avec la taille ====");  
        for(int i= 100; i<=100000;i*=10){
@@ -182,4 +203,5 @@ public class World {
        }
 
    }
+
 }

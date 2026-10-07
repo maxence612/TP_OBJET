@@ -4,6 +4,8 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 /**
  *
  * @author Maxence Schwerer et Corentin Godard
@@ -36,8 +38,31 @@ public class Guerrier extends Personnage{
     }
 
  
-   public void combattre(Creature C){
-       
+ public void combattre(Creature C){
+       // Combat Rapproché
+       if (this.getPos().distance(C.getPos())==1){
+           System.out.println("Combat entre "+ this.getNom()+" et la créature");
+           Random genRand= new Random();
+            int x=genRand.nextInt(100);
+            if (x > this.getPageAtt()){
+                System.out.println("La créature n'a pas perdu des points de vie");
+                return;
+            }
+            else {
+             int y =genRand.nextInt(100);
+             if (y<=C.getPagePar()){
+                C.setPtVie(C.getPtVie()-this.getDegAtt()+C.getPtPar());
+                System.out.println("La créature a perdu des points de vie");
+            
+            }
+            else {
+                    System.out.println("La créature a paré l'attaque");
+                }
+            }
+       }
+       else{
+        System.out.println("Combat à rapproché impossible, la distance entre les deux personnages est de : "+this.getPos().distance(C.getPos()));
+       }
    }
     /**
     * Affiche la lettre représentant le guerrier sur la carte.
