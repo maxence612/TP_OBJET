@@ -4,7 +4,7 @@ package org.centrale.objet.WoE;
  *
  * @author Maxence SCHWERER et Corentin GODARD
  */
-public class PotionSoin extends Objet{
+public class PotionSoin extends Objet implements Utilisable{
      /**
      * Quantité de point de vie soigné
      */
