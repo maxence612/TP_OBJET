@@ -8,17 +8,18 @@ public class ProjetTP {
 
     public static void main(String[] args) {
         System.out.println("Ok");
-        World monde = new World();
+        World monde = new World(15,8);
 
-        /*
-        monde.creerPersoAlea(100);
+        
+        monde.creerPersoAlea(10);
+        monde.creation_Joueur();
         monde.placerObjets();
-        monde.afficheWorld();
-        monde.mesure_temps();
-        monde.mesure_temps();
-        monde.deplacement();
-        monde.deplacement();
-        */
-       monde.couleur();
+        while(true){
+            monde.afficheWorld();
+
+            monde.tourDeJeu();
+        }
+
+    
     }
 }

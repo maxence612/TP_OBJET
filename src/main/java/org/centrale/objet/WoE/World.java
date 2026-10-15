@@ -6,7 +6,6 @@ package org.centrale.objet.WoE;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 /**
  *
@@ -25,16 +24,22 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private List<Creature> creatures;
+    private List<Creature> creatures = new ArrayList<>();
     public Joueur joueur;
     public String[] classes = {"Guerrier", "Archer"};
+    private Scanner sc = new Scanner(System.in); 
     
     public World(){
         largeur=50;
         longueur=50;
         carte = new ElementDeJeu[largeur][longueur];
         
-       }
+    }
+    public World(int largeur, int longueur){
+        this.largeur = largeur;
+        this.longueur = longueur;
+        this.carte = new ElementDeJeu[largeur][longueur];
+    }
     
     private boolean occupe(Point2D p){
         return carte[p.getX()][p.getY()] != null;
@@ -73,12 +78,12 @@ public class World {
     public void afficheWorld(){
         Point2D pt;
         
-        for(int i=0;i<largeur;i++){
-           for(int j=0;j<longueur;j++){
-               pt = new Point2D(i,j);
+        for(int y=0;y<longueur;y++){
+           for(int x=0;x<largeur;x++){
+               pt = new Point2D(x,y);
        
                if(occupe(pt)){
-                   carte[i][j].aff_lettre();
+                   carte[x][y].aff_lettre();
                }
                else{
                    System.out.print(" . "); 
@@ -92,7 +97,7 @@ public class World {
  *
  * Permet de déplacer les créatures du monde, en appelant la méthode deplacement() de chaque créature.
  */
-        public void deplacement(){
+    public void deplacement(){
         Point2D pos = new Point2D(1,2);
         Point2D pos2 = new Point2D(2,1);
         robin = new Archer();
@@ -124,7 +129,6 @@ public class World {
  * @param nombre_perso le nombre de créatures à créer
  */
     public void creerPersoAlea(int nombre_perso){
-        creatures = new ArrayList<>();
         Random rd = new Random();
         int nombre_race;
         for (int i=0;i<nombre_perso;i++){
@@ -148,55 +152,8 @@ public class World {
                
         
     }
-    /**
- *
- * Permet de mesurer le temps d'exécution de la méthode total_pdv_taille() et total_pdv_iterateur() pour différents nombres de créatures.
- */
-    public void total_pdv_taille(){
-        int total_pdv=0;
-        for(int i = 0; i< creatures.size(); i++){
-            total_pdv += creatures.get(i).getPtVie();
-        }
-        System.out.println("-----");
-        System.out.println(total_pdv);
-        System.out.println("-----");
-    }
-    
-    public void total_pdv_iterateur(){
-        int total_pdv=0;
-        for(Creature c : creatures){
-            total_pdv += c.getPtVie();
-        }
-        System.out.println("-----");
-        System.out.println(total_pdv);
-        System.out.println("-----");
-    }
-    
-    /**
- *
- * Permet de mesurer le temps d'exécution de la méthode total_pdv_taille() et total_pdv_iterateur() pour différents nombres de créatures.
- */
-   public void mesure_temps(){
-       System.out.println("===== Avec la taille ====");  
-       for(int i= 100; i<=100000;i*=10){
-            creerPersoAlea(i);
-            long debutN = System.nanoTime();
-            
-            total_pdv_taille();
-            long finN = System.nanoTime();
-            System.out.println("Avec "+ i +" elements = en micro seconde : " + (finN-debutN)/1000);  
-       }
-       System.out.println("============================");  
-       System.out.println("===== Avec un itérateur ====");
-       for(int i= 100; i<=100000;i*=10){
-            creerPersoAlea(i);
-            long debutN = System.nanoTime();
-            total_pdv_iterateur();
-            long finN = System.nanoTime();
-            System.out.println("Avec "+ i +" elements = en micro seconde : " + (finN-debutN)/1000);  
-       }
+  
 
-   }
 
     /**
  *
@@ -204,11 +161,11 @@ public class World {
  */
    public void creation_Joueur(){
     System.out.println("Entrez le nom du joueur :");
-    Scanner sc = new Scanner(System.in);
     String nom = sc.next();
     System.out.println("Voulez vous jouer un Archer ou un Guerrier");
     String classe = sc.next();
     joueur = new Joueur(nom , classe);
+    creatures.add(joueur.getPerso());
    }
 
     /**
@@ -217,16 +174,23 @@ public class World {
  */
 
    public void tourDeJeu(){
-    System.out.println("Nouveau tour de jeu !");
-    System.out.println("Ou voulez vous déplacer ? ");
-    System.out.println("8 | 1 | 2");
-    System.out.println("7 | 0 | 3");
-    System.out.println("6 | 5 | 4");
-    Scanner sc = new Scanner(System.in);
-    int direction = sc.nextInt();
-    joueur.avancerJoueur(direction);
-    System.out.println("Le joueur est maintenant en position : (" + joueur.getPerso().getPos().getX() + "," + joueur.getPerso().getPos().getY() + ")");
-    System.out.println("Fin du tour !");
+        System.out.println("Nouveau tour de jeu !");
+        System.out.println("Ou voulez vous déplacer ? ");
+        System.out.println("8 | 1 | 2");
+        System.out.println("7 | 0 | 3");
+        System.out.println("6 | 5 | 4");
+
+
+        int direction = Integer.parseInt(sc.next());
+        if(! deplacerElementDeJeu(joueur.getPerso(), new Point2D(direction))){
+            System.out.println("Déplacement impossible, veuillez réessayer.");
+        }
+        else{
+            System.out.println("Le joueur est maintenant en position : ");
+            joueur.getPerso().getPos().affiche();
+            System.out.println("Fin du tour !");
+        }
+
    }
 
     
@@ -243,5 +207,36 @@ public class World {
         System.out.println(ANSI_GREEN + "Ceci est du texte en vert." + ANSI_RESET);
  
    }
+
+
+
+
+
+
+
+
+   public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage) {
+        int x = decalage.getX() + element.getPos().getX();
+        int y = decalage.getY() + element.getPos().getY();
+        Point2D newPos = new Point2D(x, y);
+
+        if (x < 0 || x >= largeur || y < 0 || y >= longueur) {
+            return false;
+        }
+
+        if (carte[x][y] != null) {
+            return false;
+        }
+
+        // Libérer l'ancienne case.
+        Point2D anciennePos = element.getPos();
+        carte[anciennePos.getX()][anciennePos.getY()] = null;
+
+        // Actualiser la position de l'élément.
+        element.setPos(newPos);
+        carte[x][y] = element;
+
+        return true;
+    }
 
 }

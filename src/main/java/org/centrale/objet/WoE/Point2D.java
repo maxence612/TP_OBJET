@@ -26,6 +26,32 @@ public class Point2D {
         this.y = y;
     }
 
+    public Point2D(int direction) {
+        this.x = deltaX(direction);
+        this.y = deltaY(direction);
+    }
+    
+    private int deltaX(int direction){
+        if (direction>=2 && direction<=4){
+            return 1;
+        }
+        if (direction>=6 && direction<=8){
+            return -1;
+        }
+        return 0;
+    }
+
+    private int deltaY(int direction){
+        if (direction==8 || direction==1 || direction==2){
+            return -1;
+        }
+        if (direction>=4 && direction<=6){
+            return 1;
+        }
+        return 0;
+    }
+
+
     public void affiche(){
         System.out.println("["+x +";"+y+"]");
     }
