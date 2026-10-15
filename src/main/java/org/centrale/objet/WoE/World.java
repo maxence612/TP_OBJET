@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.centrale.objet.WoE;
 import java.util.Random;
 import java.util.Scanner;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -12,6 +9,12 @@ import java.util.List;
  * @author Maxence SCHWERER et Corentin GODARD
  */
 public class World {
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+
     public Archer robin ;
     public Archer guillaumeT;
     public Paysan peon;
@@ -30,12 +33,9 @@ public class World {
     public String[] classes = {"Guerrier", "Archer"};
     private Scanner sc = new Scanner(System.in); 
     
-    public World(){
-        largeur=50;
-        longueur=50;
-        carte = new ElementDeJeu[largeur][longueur];
-        carte_nuage = new int[largeur][longueur];
-        
+    public World(String nomPartie){
+        chargementPartie(nomPartie);
+               
     }
     public World(int largeur, int longueur){
         this.largeur = largeur;
@@ -130,17 +130,12 @@ public class World {
     }
   
     
-    public int peuplage(){
-        Random genRand= new Random();
-        int cmb =genRand.nextInt(10);
-        return cmb;
-    }
     
     /**
- *
- * Permet de créer un certain nombre de créatures aléatoires, en fonction du nombre passé en paramètre.
- * @param nombre_perso le nombre de créatures à créer
- */
+     *
+     * Permet de créer un certain nombre de créatures aléatoires, en fonction du nombre passé en paramètre.
+     * @param nombre_perso le nombre de créatures à créer
+     */
     public void creerPersoAlea(int nombre_perso){
         Random rd = new Random();
         int nombre_race;
@@ -218,24 +213,6 @@ public class World {
 
     
    
-   public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-
-   public void couleur(){
-        System.out.println(ANSI_RED + "Ceci est du texte en rouge." + ANSI_RESET);
-        
-        System.out.println(ANSI_GREEN + "Ceci est du texte en vert." + ANSI_RESET);
- 
-   }
-
-
-
-
-
-
 
 
    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage) {
@@ -260,6 +237,36 @@ public class World {
         carte[x][y] = element;
 
         return true;
+    }
+
+
+    public void chargementPartie(String source){
+        File f = new File(source);
+        if (! f.exists() || ! f.isFile()) {
+            throw new IllegalArgumentException("Le fichier spécifié n'existe pas");
+        }
+        else{
+            largeur=50;
+            longueur=50;
+            carte = new ElementDeJeu[largeur][longueur];
+            carte_nuage = new int[largeur][longueur];   
+        }
+    }
+
+    public void sauvegardePartie(){
+        String date = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
+        sauvegardePartie("sauvegarde_" + date + ".txt");
+    }
+
+    public void sauvegardePartie(String destination){
+        File f = new File(destination);
+        if (f.exists()) {
+            throw new IllegalArgumentException("Le fichier spécifié existe déjà");
+        }
+        else{
+            // Code pour sauvegarder la partie
+            //=> On parcours la liste de tous les elments de jeu et on appel leur méthode svg
+        }
     }
 
 }
