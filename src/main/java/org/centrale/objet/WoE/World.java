@@ -218,12 +218,30 @@ public class World {
 
    public void tourDeJeu(){
     System.out.println("Nouveau tour de jeu !");
-    System.out.println("Ou voulez vous déplacer ? (0 : ne pas bouger,1:haut, 2:diagonale haut-droit, 3:droit, 4:diagonale bas-droit, 5:bas, 6:diagonale bas-gauche, 7:gauche, 8:diagonale haut-gauche)");
+    System.out.println("Ou voulez vous déplacer ? ");
+    System.out.println("8 | 1 | 2");
+    System.out.println("7 | 0 | 3");
+    System.out.println("6 | 5 | 4");
     Scanner sc = new Scanner(System.in);
     int direction = sc.nextInt();
     joueur.avancerJoueur(direction);
     System.out.println("Le joueur est maintenant en position : (" + joueur.getPerso().getPos().getX() + "," + joueur.getPerso().getPos().getY() + ")");
     System.out.println("Fin du tour !");
+   }
+
+    
+   
+   public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
+   public void couleur(){
+        System.out.println(ANSI_RED + "Ceci est du texte en rouge." + ANSI_RESET);
+        
+        System.out.println(ANSI_GREEN + "Ceci est du texte en vert." + ANSI_RESET);
+ 
    }
 
 }

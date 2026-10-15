@@ -44,27 +44,27 @@ public class Joueur {
 
     /**
      * Permet de faire avancer le joueur dans une direction donnée
-     * @param direction la direction dans laquelle le joueur doit avancer 1=haut, 2=droite, 3=bas, 4=gauche
+     * @param direction la direction dans laquelle le joueur doit avancer
      */
     public void avancerJoueur(int direction){
         perso.avancer(deltaX(direction), deltaY(direction));
     }
 
     private int deltaX(int direction){
-        if (direction==2){
+        if (direction>=2 && direction<=4){
             return 1;
         }
-        if (direction==4){
+        if (direction>=6 && direction<=8){
             return -1;
         }
         return 0;
     }
 
     private int deltaY(int direction){
-        if (direction==1){
+        if (direction==8 || direction==1 || direction==2){
             return 1;
         }
-        if (direction==3){
+        if (direction>=4 && direction<=6){
             return -1;
         }
         return 0;
