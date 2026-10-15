@@ -175,6 +175,10 @@ public class World {
 
    public void tourDeJeu(){
         System.out.println("Nouveau tour de jeu !");
+        
+        System.out.println("Voulez vous battre ou vous déplacer ? (b/d)");
+        String choix = sc.next();
+        if (choix.equals("d")){
         System.out.println("Ou voulez vous déplacer ? ");
         System.out.println("8 | 1 | 2");
         System.out.println("7 | 0 | 3");
@@ -190,7 +194,13 @@ public class World {
             joueur.getPerso().getPos().affiche();
             System.out.println("Fin du tour !");
         }
-
+    }
+    else if (choix.equals("b")){
+        System.out.println("Gros Gourmand");
+    }
+    else{
+        System.out.println("Choix invalide, veuillez réessayer.");
+    }
    }
 
     

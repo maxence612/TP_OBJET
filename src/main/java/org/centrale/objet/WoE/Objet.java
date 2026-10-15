@@ -34,7 +34,7 @@ public abstract class Objet extends ElementDeJeu{
 
     public Objet() {
         super();
-        this.durabilite=2;
+        this.durabilite=1;
     }
 
         /**
