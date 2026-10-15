@@ -119,7 +119,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
     * Déplace aléatoirement le personnage d'au plus une case
     * horizontalement et verticalement.
      */
-    public void deplace(){
+    public void deplacer(){
         Random rd = new Random();
         int delta_x = rd.nextInt(3) - 1;
         int delta_y = rd.nextInt(3) - 1;

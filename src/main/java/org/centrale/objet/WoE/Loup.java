@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author maxen
  */
-public class Loup extends Monstre{
+public class Loup extends Monstre implements Combattant{
        /**
      *
      * @param ptVie points de vie initiaux

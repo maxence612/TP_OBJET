@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author Maxence Schwerer et Corentin Godard
  */
-public class Guerrier extends Personnage{
+public class Guerrier extends Personnage implements Combattant{
        /**
      *
      * @param n nom initial

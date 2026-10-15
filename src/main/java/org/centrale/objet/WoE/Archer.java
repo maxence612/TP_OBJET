@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class Archer extends Personnage{
+public class Archer extends Personnage implements Combattant{
    /**
      * Nombre de flèches restantes à l'archer
      */    
