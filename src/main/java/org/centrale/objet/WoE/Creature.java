@@ -6,7 +6,7 @@ import java.util.Random;
  * @author Corentin GODARD et Maxence SCHWERER
  */
 
-public abstract class Creature extends ElementDeJeu {
+public abstract class Creature extends ElementDeJeu implements Deplacable{
     /**
      * Nombre de points de vie restant au personnage
      */
