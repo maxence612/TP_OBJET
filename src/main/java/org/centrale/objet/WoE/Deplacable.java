@@ -1,5 +1,5 @@
 package org.centrale.objet.WoE;
 
 public interface Deplacable {
-    public void deplacer();
+    public void deplacerAlea();
 }
