@@ -24,6 +24,7 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
+    private int[][] carte_nuage; // Tab 1 si nuage toxique, 0 sinon (possible de metre 3,4)
     private List<Creature> creatures = new ArrayList<>();
     public Joueur joueur;
     public String[] classes = {"Guerrier", "Archer"};
@@ -33,12 +34,14 @@ public class World {
         largeur=50;
         longueur=50;
         carte = new ElementDeJeu[largeur][longueur];
+        carte_nuage = new int[largeur][longueur];
         
     }
     public World(int largeur, int longueur){
         this.largeur = largeur;
         this.longueur = longueur;
         this.carte = new ElementDeJeu[largeur][longueur];
+        this.carte_nuage = new int[largeur][longueur];
     }
     
     private boolean occupe(Point2D p){
@@ -77,10 +80,20 @@ public class World {
  */
     public void afficheWorld(){
         Point2D pt;
+        boolean actuel_nuage=false;
         
         for(int y=0;y<longueur;y++){
            for(int x=0;x<largeur;x++){
                pt = new Point2D(x,y);
+
+               if(carte_nuage[x][y] == 1 && !actuel_nuage){
+                    actuel_nuage = true;
+                    System.out.print(ANSI_RED);
+               }
+               else if(carte_nuage[x][y] == 0 && actuel_nuage){
+                    actuel_nuage = false;
+                    System.out.print(ANSI_RESET);
+               }
        
                if(occupe(pt)){
                    carte[x][y].aff_lettre();

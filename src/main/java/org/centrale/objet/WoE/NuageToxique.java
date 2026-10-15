@@ -16,7 +16,7 @@ public class NuageToxique extends Objet implements Combattant,Deplacable{
     }
 
     public void aff_lettre(){
-    ;
+    
     }
 
      
