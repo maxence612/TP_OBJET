@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class Epee extends Objet{
+public class Epee extends Objet implements Utilisable{
 
         /**
      * Durabilité de l'objet

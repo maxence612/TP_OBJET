@@ -43,7 +43,6 @@ public abstract class Objet extends ElementDeJeu{
      */
     public abstract void aff_lettre();
 
-    public abstract void utiliser(Creature c);
     
 }
 
