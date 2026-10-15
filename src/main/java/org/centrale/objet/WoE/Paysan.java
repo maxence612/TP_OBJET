@@ -11,17 +11,17 @@ package org.centrale.objet.WoE;
 public class Paysan extends Personnage{
        /**
      *
-     * @param n nom initial
-     * @param pV points de vie initiaux
-     * @param dA nombre de dégat initiaux infligé par attaque
-     * @param pPar nombre points parade initiaux
-     * @param paAtt pourcentage initial de chance que l'attaque aboutisse 
-     * @param paPar pourcentage initial de chance que la parade aboutisse 
-     * @param dMax distance initale à laquelle il peut se battre 
-     * @param p position initale  
+     * @param nom nom initial
+     * @param ptVie points de vie initiaux
+     * @param degAtt nombre de dégat initiaux infligé par attaque
+     * @param ptPar nombre points parade initiaux
+     * @param pageAtt pourcentage initial de chance que l'attaque aboutisse 
+     * @param pagePar pourcentage initial de chance que la parade aboutisse 
+     * @param distAttMax distance initale à laquelle il peut se battre 
+     * @param pos position initale  
      */
-    public Paysan(String n, int pV, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p) {
-        super(n, pV, dA, pPar, paAtt, paPar, dMax, p);
+    public Paysan(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
+        super(nom, ptVie, degAtt, ptPar, pageAtt, pagePar, distAttMax, pos);
     }
      /**
      *

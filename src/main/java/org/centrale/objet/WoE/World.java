@@ -4,7 +4,7 @@
  */
 package org.centrale.objet.WoE;
 import java.util.Random;
-
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,8 @@ public class World {
     private int longueur;
     private ElementDeJeu[][] carte;
     private List<Creature> creatures;
-    
+    public Joueur joueur;
+    public String[] classes = {"Guerrier", "Archer"};
     
     public World(){
         largeur=50;
@@ -63,12 +64,6 @@ public class World {
             carte[x][y]=creatures.get(i);
         }
         
-    }
-    
-    public void tourDeJeu(){
-        System.out.println("Nouveau tour de jeu !");
-        
-        System.out.println("Fin du tour !");
     }
     
     /**
@@ -201,6 +196,34 @@ public class World {
             System.out.println("Avec "+ i +" elements = en micro seconde : " + (finN-debutN)/1000);  
        }
 
+   }
+
+    /**
+ *
+ * Création du joueur au début de la partie
+ */
+   public void creation_Joueur(){
+    System.out.println("Entrez le nom du joueur :");
+    Scanner sc = new Scanner(System.in);
+    String nom = sc.next();
+    System.out.println("Voulez vous jouer un Archer ou un Guerrier");
+    String classe = sc.next();
+    joueur = new Joueur(nom , classe);
+   }
+
+    /**
+ *
+ * Tour de jeu du joueur
+ */
+
+   public void tourDeJeu(){
+    System.out.println("Nouveau tour de jeu !");
+    System.out.println("Ou voulez vous déplacer ? (0 : ne pas bouger,1:haut, 2:diagonale haut-droit, 3:droit, 4:diagonale bas-droit, 5:bas, 6:diagonale bas-gauche, 7:gauche, 8:diagonale haut-gauche)");
+    Scanner sc = new Scanner(System.in);
+    int direction = sc.nextInt();
+    joueur.avancerJoueur(direction);
+    System.out.println("Le joueur est maintenant en position : (" + joueur.getPerso().getPos().getX() + "," + joueur.getPerso().getPos().getY() + ")");
+    System.out.println("Fin du tour !");
    }
 
 }
