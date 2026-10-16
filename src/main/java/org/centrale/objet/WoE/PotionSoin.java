@@ -29,7 +29,7 @@ public class PotionSoin extends Objet implements Inventorable{
     }
     
     public void aff_lettre(){
-        System.out.print(" P ");
+        System.out.print(" H ");
     }
 
     public void afficheDetails(){

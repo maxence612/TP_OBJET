@@ -117,7 +117,7 @@ public class World {
         System.out.println("6 | 5 | 4");
 
         int direction = Integer.parseInt(sc.next());
-        if (!deplacerElementDeJeu(joueur.getPerso(), new Point2D(direction))) {
+        if (!deplacerElementDeJeu(joueur.getPerso(), new Point2D(direction), true)) {
             System.out.println("Déplacement impossible, veuillez réessayer.");
         } else {
             System.out.println("Le joueur est maintenant en position : ");
@@ -257,13 +257,20 @@ public class World {
 
     }
 
-    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage) {
+    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage,  boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
         Point2D newPos = new Point2D(x, y);
 
         if (x < 0 || x >= largeur || y < 0 || y >= longueur) {
             return false;
+        }
+
+        //ramasser un objet si le joueur se déplace sur une case contenant un objet
+        if(joueurPrincipal && carte[x][y] instanceof Inventorable){ 
+            joueur.getInventaire().ajouterObjet( (Objet) carte[x][y]);
+            carte[x][y] = null;
+            System.out.println("Vous avez ramassé un objet !");
         }
 
         if (carte[x][y] != null) {
