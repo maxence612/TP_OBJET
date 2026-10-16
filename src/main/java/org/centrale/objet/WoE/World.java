@@ -139,7 +139,64 @@ public class World {
         System.out.println(guillaumeT.getPtVie());
     }
   
-    
+    public void action_deplacement(){
+        //appelé à lorsque le joueur choisit de se déplacer.
+        System.out.println("Ou voulez vous déplacer ? ");
+        System.out.println("8 | 1 | 2");
+        System.out.println("7 | 0 | 3");
+        System.out.println("6 | 5 | 4");
+
+        int direction = Integer.parseInt(sc.next());
+        if(! deplacerElementDeJeu(joueur.getPerso(), new Point2D(direction))){
+            System.out.println("Déplacement impossible, veuillez réessayer.");
+        }
+        else{
+            System.out.println("Le joueur est maintenant en position : ");
+            joueur.getPerso().getPos().affiche();
+        }
+    }
+
+    public void action_attaquer(){
+        //appelé à lorsque le joueur choisit de combattre.
+        List<Creature> cibles = new ArrayList<>();
+        int rayon = (int) Math.sqrt(joueur.getPerso().getDistAttMax());
+        int x = joueur.getPerso().getPos().getX();
+        int y = joueur.getPerso().getPos().getY();
+        for (int i = x - rayon; i <= x + rayon; i++) {
+            for (int j = y - rayon; j <= y + rayon; j++) {
+                if (i >= 0 && i < largeur && j >= 0 && j < longueur && !(i == x && j == y) ) {
+                    if (carte[i][j] instanceof Creature) {
+                        cibles.add((Creature) carte[i][j]);
+                    }
+                }
+            }
+        }
+        if (cibles.isEmpty()) {
+            System.out.println("Aucune créature à portée.");
+        }
+        else {
+            System.out.println("Qui voulez-vous attaquer ?");
+            for (int i = 0; i < cibles.size(); i++) {
+                Creature c = cibles.get(i);
+                System.out.println((i + 1) + " - " + c.getClass().getName()
+                        + " (PV : " + c.getPtVie() + ")");
+                        
+            }
+            int ennemi = Integer.parseInt(sc.next());
+            if (ennemi == 0) {
+                System.out.println("Vous avez choisi de ne pas attaquer.");
+            } else if (ennemi > 0 && ennemi <= cibles.size()) {
+                Creature cible = cibles.get(ennemi - 1);
+                //joueur.combattre(cible);
+                System.out.println("Vous avez attaqué " + cible.getClass().getName()
+                        + " (PV restants : " + cible.getPtVie() + ")");
+            } else {
+                System.out.println("Choix invalide, veuillez réessayer.");
+
+            }
+        }
+    }
+
     
     /**
      *
@@ -205,73 +262,42 @@ public class World {
  *
  * Tour de jeu du joueur
  */
+   public void test_ajout_inventaire(){
+        joueur.getInventaire().ajouterObjet(new Epee());
+        joueur.getInventaire().ajouterObjet(new PotionSoin());
+   }
 
    public void tourDeJeu(){
         System.out.println("Nouveau tour de jeu !");
         
-        System.out.println("Voulez vous battre ou vous déplacer ? (b/d)");
+        System.out.println("Que voulez-vous faire ?");
+        System.out.println(" - Se battre (b)");
+        System.out.println(" - Se déplacer (d)");
+        System.out.println(" - Afficher la carte (a)");
+        System.out.println(" - Afficher l'inventaire (i)");
+        System.out.println(" - Sauvegarder (s)");
+
         String choix = sc.next();
+        //System.out.println("Fin du tour !");
         if (choix.equals("d")){
-        System.out.println("Ou voulez vous déplacer ? ");
-        System.out.println("8 | 1 | 2");
-        System.out.println("7 | 0 | 3");
-        System.out.println("6 | 5 | 4");
-
-
-        int direction = Integer.parseInt(sc.next());
-        if(! deplacerElementDeJeu(joueur.getPerso(), new Point2D(direction))){
-            System.out.println("Déplacement impossible, veuillez réessayer.");
+            action_deplacement();
+        }
+        else if (choix.equals("a")){
+            afficheWorld();
+        }
+        else if (choix.equals("i")){
+            joueur.getInventaire().affiche();
+        }
+        else if (choix.equals("s")){
+            sauvegardePartie();
+        }
+        else if (choix.equals("b")){
+            action_attaquer();
         }
         else{
-            System.out.println("Le joueur est maintenant en position : ");
-            joueur.getPerso().getPos().affiche();
-            System.out.println("Fin du tour !");
+            System.out.println("Choix invalide, veuillez réessayer.");
         }
-    }
-    else if (choix.equals("b")){
-        System.out.println("Gros Gourmand");
-        List<Creature> cibles = new ArrayList<>();
-        int rayon = (int) Math.sqrt(joueur.getPerso().getDistAttMax());
-        int x = joueur.getPerso().getPos().getX();
-        int y = joueur.getPerso().getPos().getY();
-    for (int i = x - rayon; i <= x + rayon; i++) {
-        for (int j = y - rayon; j <= y + rayon; j++) {
-            if (i >= 0 && i < largeur && j >= 0 && j < longueur && !(i == x && j == y) ) {
-                if (carte[i][j] instanceof Creature) {
-                    cibles.add((Creature) carte[i][j]);
-                }
-        }
-    }
-}
-        if (cibles.isEmpty()) {
-            System.out.println("Aucune créature à portée.");
-        }
-        else {
-            System.out.println("Qui voulez-vous attaquer ?");
-            for (int i = 0; i < cibles.size(); i++) {
-                Creature c = cibles.get(i);
-                System.out.println((i + 1) + " - " + c.getClass().getName()
-                        + " (PV : " + c.getPtVie() + ")");
-                        
-            }
-            int ennemi = Integer.parseInt(sc.next());
-            if (ennemi == 0) {
-                System.out.println("Vous avez choisi de ne pas attaquer.");
-            } else if (ennemi > 0 && ennemi <= cibles.size()) {
-                Creature cible = cibles.get(ennemi - 1);
-                joueur.combattre(cible);
-                System.out.println("Vous avez attaqué " + cible.getClass().getName()
-                        + " (PV restants : " + cible.getPtVie() + ")");
-            } else {
-                System.out.println("Choix invalide, veuillez réessayer.");
 
-            }
-        }
-    }
-
-    else{
-        System.out.println("Choix invalide, veuillez réessayer.");
-    }
    }
 
     

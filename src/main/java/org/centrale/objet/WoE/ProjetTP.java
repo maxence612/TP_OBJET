@@ -23,9 +23,14 @@ public class ProjetTP {
 
             if(choix.equals("1")){
                 monde = new World(15,8);
-                //monde.creerPersoAlea(10);
-                //monde.creation_Joueur();
-                //monde.placerObjets();
+
+                monde.creerCreaturesAlea(10);
+                monde.creerObjetsAlea(10);
+                monde.placerCreaturesEtObjets();
+
+                monde.afficheWorld();
+                monde.creation_Joueur();
+                monde.test_ajout_inventaire();
                 monde.getJoueur().getInventaire().affiche();
                 break;
             }
