@@ -23,9 +23,9 @@ public class ProjetTP {
 
             if(choix.equals("1")){
                 monde = new World(15,8);
-                monde.creerPersoAlea(10);
-                monde.creation_Joueur();
-                monde.placerObjets();
+                //monde.creerPersoAlea(10);
+                //monde.creation_Joueur();
+                //monde.placerObjets();
                 monde.getJoueur().getInventaire().affiche();
                 break;
             }
