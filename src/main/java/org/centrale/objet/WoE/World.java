@@ -276,7 +276,7 @@ public class World {
      */
 
     public void tourDeJeu() {
-        System.out.println("Nouveau tour de jeu !");
+        System.out.println(ANSI_GREEN+"Nouveau tour de jeu !");
 
         System.out.println("Que voulez-vous faire ?");
         System.out.println(" - Se battre (b)");
@@ -284,7 +284,7 @@ public class World {
         System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
         System.out.println(" - Afficher la légende de la carte (l)");
-        System.out.println(" - Sauvegarder (s)");
+        System.out.println(" - Sauvegarder (s)"+ANSI_RESET);
 
         String choix = sc.next();
         // System.out.println("Fin du tour !");
