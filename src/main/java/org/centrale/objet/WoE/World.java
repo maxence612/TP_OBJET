@@ -178,16 +178,16 @@ public class World {
             System.out.println("Qui voulez-vous attaquer ?");
             for (int i = 0; i < cibles.size(); i++) {
                 Creature c = cibles.get(i);
-                System.out.println((i + 1) + " - " + c.getClass().getName()
-                        + " (PV : " + c.getPtVie() + ")");
+                c.afficheDetails();
                         
             }
+            System.out.println("Mettez comme chiffre la créature que vous souhaitez attaquer, ou 0 pour ne pas attaquer.");
             int ennemi = Integer.parseInt(sc.next());
             if (ennemi == 0) {
                 System.out.println("Vous avez choisi de ne pas attaquer.");
             } else if (ennemi > 0 && ennemi <= cibles.size()) {
                 Creature cible = cibles.get(ennemi - 1);
-                //joueur.combattre(cible);
+                joueur.combattre(cible);
                 System.out.println("Vous avez attaqué " + cible.getClass().getName()
                         + " (PV restants : " + cible.getPtVie() + ")");
             } else {

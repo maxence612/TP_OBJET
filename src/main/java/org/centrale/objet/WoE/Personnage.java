@@ -43,9 +43,9 @@ public abstract class Personnage extends Creature{
     public Personnage(){
         this("Ethan",
         100,
-        10,
+        50,
         5,
-        20,
+        100,
         20,
         100,
         new Point2D(-1,-1) ); 

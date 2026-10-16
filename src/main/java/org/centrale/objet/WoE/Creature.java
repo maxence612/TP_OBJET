@@ -68,9 +68,9 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
     public Creature(){
         this(100,
         10,
-        5,
+        0,
         20,
-        2,
+        0,
         new Point2D(5,5), "Creature"); 
     }
     
