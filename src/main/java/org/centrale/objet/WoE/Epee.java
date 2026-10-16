@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class Epee extends Objet implements Utilisable{
+public class Epee extends Objet implements Inventorable{
 
         /**
      * Durabilité de l'objet
@@ -43,6 +43,12 @@ public class Epee extends Objet implements Utilisable{
 
     public void aff_lettre(){
         System.out.print(" E ");
+    }
+
+    public void afficheDetails(){
+        System.out.println("Épée : ");
+        System.out.println("Points de dégât : " + this.degat);
+        System.out.println("Durabilité : " + this.getDurabilite());
     }
 
     public void utiliser(Creature c){

@@ -26,6 +26,7 @@ public class ProjetTP {
                 monde.creerPersoAlea(10);
                 monde.creation_Joueur();
                 monde.placerObjets();
+                monde.getJoueur().getInventaire().affiche();
                 break;
             }
             

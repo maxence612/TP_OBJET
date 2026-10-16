@@ -6,6 +6,8 @@ import java.util.Random;
 public class Joueur {
 
     private Personnage perso;
+    private Inventaire inventaire;
+
 
     public Joueur(String name, String typePerso){
          Random rd = new Random();
@@ -40,6 +42,7 @@ public class Joueur {
         }
         perso.setPageAtt(temp_pourcentageAtt);
 
+        this.inventaire = new Inventaire(10);
     }
 
     /**
@@ -53,6 +56,10 @@ public class Joueur {
     }
     public void setPerso(Personnage perso){
         this.perso = perso;
+    }
+
+    public Inventaire getInventaire(){
+        return this.inventaire;
     }
 
 }

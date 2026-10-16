@@ -1,5 +1,5 @@
 package org.centrale.objet.WoE;
 
-public interface Utilisable {
+public interface Inventorable {
     public void utiliser(Creature c);
 }

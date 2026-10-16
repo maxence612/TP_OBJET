@@ -4,7 +4,7 @@ package org.centrale.objet.WoE;
  *
  * @author Maxence SCHWERER et Corentin GODARD
  */
-public class PotionSoin extends Objet implements Utilisable{
+public class PotionSoin extends Objet implements Inventorable{
      /**
      * Quantité de point de vie soigné
      */
@@ -30,6 +30,12 @@ public class PotionSoin extends Objet implements Utilisable{
     
     public void aff_lettre(){
         System.out.print(" P ");
+    }
+
+    public void afficheDetails(){
+        System.out.println("Potion de soin : ");
+        System.out.println("Points de vie soignés : " + this.pvSoigne);
+        System.out.println("Durabilité : " + this.getDurabilite());
     }
 
     public void utiliser(Creature c){

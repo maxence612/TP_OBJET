@@ -27,8 +27,9 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private int[][] carte_nuage; // Tab 1 si nuage toxique, 0 sinon (possible de metre 3,4)
+    private int[][] carte_nuage; // Tab 1 si nuage toxique, 0 sinon (possible de metre 3,4...)
     private List<Creature> creatures = new ArrayList<>();
+    private List<Objet> objets = new ArrayList<>();
     public Joueur joueur;
     public String[] classes = {"Guerrier", "Archer"};
     private Scanner sc = new Scanner(System.in); 
@@ -49,14 +50,13 @@ public class World {
     }
     
     public void creerMondeAlea(){
-        
-        
+          
     }
     /**
  *
- * Sert à placer les créatures du monde sur la carte
+ * Sert à placer les créatures et les objets générés précédement sur la carte
  */
-    public void placerObjets(){
+    public void placerCreaturesEtObjets(){
         Random genRand= new Random();
         int x=genRand.nextInt(this.largeur);
         int y=genRand.nextInt(this.longueur);
@@ -70,6 +70,16 @@ public class World {
             }
             creatures.get(i).setPos(pt);
             carte[x][y]=creatures.get(i);
+        }
+
+        for(int i=0; i<objets.size();i++){
+            while(occupe(pt)){
+                x=genRand.nextInt(this.largeur);
+                y=genRand.nextInt(this.longueur);
+                pt = new Point2D(x,y);
+            }
+            objets.get(i).setPos(pt);
+            carte[x][y]=objets.get(i);
         }
         
     }
@@ -133,10 +143,10 @@ public class World {
     
     /**
      *
-     * Permet de créer un certain nombre de créatures aléatoires, en fonction du nombre passé en paramètre.
+     * Permet de créer un certain nombre de créatures aléatoires.
      * @param nombre_perso le nombre de créatures à créer
      */
-    public void creerPersoAlea(int nombre_perso){
+    public void creerCreaturesAlea(int nombre_perso){
         Random rd = new Random();
         int nombre_race;
         for (int i=0;i<nombre_perso;i++){
@@ -161,7 +171,22 @@ public class World {
         
     }
   
-
+    public void creerObjetsAlea(int nombre_objets){
+        Random rd = new Random();
+        int nombre_race;
+        for (int i=0;i<nombre_objets;i++){
+          nombre_race = rd.nextInt(2);
+        if (nombre_race==0){
+            objets.add(new Epee());   
+        }
+        if (nombre_race==1){
+            objets.add(new PotionSoin());  
+        }
+        
+        }
+               
+        
+    }
 
     /**
  *
@@ -176,7 +201,7 @@ public class World {
     creatures.add(joueur.getPerso());
    }
 
-    /**
+/**
  *
  * Tour de jeu du joueur
  */
@@ -267,6 +292,11 @@ public class World {
             // Code pour sauvegarder la partie
             //=> On parcours la liste de tous les elments de jeu et on appel leur méthode svg
         }
+    }
+
+
+    public Joueur getJoueur() {
+        return joueur;
     }
 
 }

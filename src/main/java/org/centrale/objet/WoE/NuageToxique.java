@@ -18,6 +18,11 @@ public class NuageToxique extends Objet implements Combattant,Deplacable{
     public void aff_lettre(){
     
     }
+    
+    public void afficheDetails(){
+        System.out.println("Nuage toxique : ");
+        System.out.println("Durabilité : " + this.getDurabilite());
+    }
 
      
     public void deplacerAlea(){
