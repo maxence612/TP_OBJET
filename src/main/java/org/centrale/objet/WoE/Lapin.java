@@ -41,7 +41,7 @@ public class Lapin extends Monstre{
         System.out.print(" R ");
     }
      public void afficheDetails(){
-        System.out.println("Lapin : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Dégâts d'attaque : " + this.getDegAtt() + ", Points de parade : " + this.getPtPar() + ", Pourcentage d'attaque : " + this.getPageAtt() + ", Pourcentage de parade : " + this.getPagePar() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
+        System.out.println("Lapin : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
     
 }

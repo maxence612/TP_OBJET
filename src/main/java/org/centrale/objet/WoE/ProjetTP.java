@@ -31,7 +31,8 @@ public class ProjetTP {
                 monde.creerNuagesAlea(5);
                 monde.placerCreaturesEtObjetsEtPerso();
 
-        
+                System.out.println("Le joueur démarre en ");
+                monde.getJoueur().getPerso().getPos().affiche();
                 monde.afficheWorld();
                 partieLancee = true;
 

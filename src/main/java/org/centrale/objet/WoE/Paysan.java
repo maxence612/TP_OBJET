@@ -43,6 +43,6 @@ public class Paysan extends Personnage{
         
     }
      public void afficheDetails(){
-        System.out.println("Paysan : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Dégâts d'attaque : " + this.getDegAtt() + ", Points de parade : " + this.getPtPar() + ", Pourcentage d'attaque : " + this.getPageAtt() + ", Pourcentage de parade : " + this.getPagePar() + ", Distance maximale d'attaque : " + this.getDistAttMax() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
+        System.out.println("Paysan : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
 }

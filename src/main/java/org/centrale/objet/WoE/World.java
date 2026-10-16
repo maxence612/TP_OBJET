@@ -171,6 +171,8 @@ public class World {
         Point2D pt;
         boolean actuel_nuage = false;
         System.out.print(ANSI_BLUE);
+        System.out.println("Le joueur est en ");
+        joueur.getPerso().getPos().affiche();
         for (int y = 0; y < longueur; y++) {
             for (int x = 0; x < largeur; x++) {
                 pt = new Point2D(x, y);
