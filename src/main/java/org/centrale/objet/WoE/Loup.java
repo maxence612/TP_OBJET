@@ -44,4 +44,7 @@ public class Loup extends Monstre implements Combattant{
     public void aff_lettre(){
         System.out.print(" L ");
     }
+     public void afficheDetails(){
+        System.out.println("Loup : " + this.getNom()+"Points de vie : " + this.getPtVie() + ", Dégâts d'attaque : " + this.getDegAtt() + ", Points de parade : " + this.getPtPar() + ", Pourcentage d'attaque : " + this.getPageAtt() + ", Pourcentage de parade : " + this.getPagePar() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
+    }
 }

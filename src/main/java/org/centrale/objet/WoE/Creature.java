@@ -142,5 +142,5 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
         this.getPos().setY(this.getPos().getY() + delta_y);
     }
     
-    
+    public abstract void afficheDetails();
 }
