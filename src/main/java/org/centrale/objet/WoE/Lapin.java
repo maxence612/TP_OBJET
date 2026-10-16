@@ -17,9 +17,10 @@ public class Lapin extends Monstre{
      * @param pageAtt pourcentage initial de chance que l'attaque aboutisse 
      * @param pagePar pourcentage initial de chance que la parade aboutisse 
      * @param pos position initale  
+     * @param nom nom du monstre
      */
-    public Lapin(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos) {
-        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos);
+    public Lapin(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos, String nom) {
+        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos, nom);
     }
      /**
      *

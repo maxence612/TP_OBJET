@@ -16,10 +16,11 @@ public class Loup extends Monstre implements Combattant{
      * @param ptPar nombre points parade initiaux
      * @param pageAtt pourcentage initial de chance que l'attaque aboutisse 
      * @param pagePar pourcentage initial de chance que la parade aboutisse 
-     * @param pos position initale  
+     * @param pos position initale 
+     * @param nom nom du monstre 
      */
-    public Loup(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos) {
-        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos);
+    public Loup(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, Point2D pos, String nom) {
+        super(ptVie, degAtt, ptPar, pageAtt, pagePar, pos, nom);
     }
      /**
      *

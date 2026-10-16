@@ -29,20 +29,27 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
     private int pagePar;
 
     /**
+     * Nom du personnage
+     */
+    private String nom;
+
+    /**
      *
      * @param ptVie points de vie initiaux
      * @param degAtt nombre de dégat initiaux infligé par attaque
      * @param ptPar nombre points parade initiaux
      * @param pageAtt pourcentage initial de chance que l'attaque aboutisse 
      * @param pagePar pourcentage initial de chance que la parade aboutisse 
+     * @param nom nom du personnage
      */
-    public Creature(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar,Point2D pos) {
+    public Creature(int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar,Point2D pos, String nom) {
         super(pos);
         this.ptVie = ptVie;
         this.degAtt = degAtt;
         this.ptPar = ptPar;
         this.pageAtt = pageAtt;
         this.pagePar = pagePar;
+        this.nom = nom;
     }
     
     /**
@@ -54,7 +61,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
         cr.getDegAtt(),
         cr.getPtPar(),
         cr.getPageAtt(),
-        cr.getPagePar(),cr.getPos());   
+        cr.getPagePar(),cr.getPos(), cr.getNom());   
     }
     
 
@@ -64,7 +71,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
         5,
         20,
         2,
-        new Point2D(5,5)); 
+        new Point2D(5,5), "Creature"); 
     }
     
 
@@ -93,6 +100,13 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
         return pagePar;
     }
    
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public void setPtVie(int ptVie) {
         this.ptVie = ptVie;
@@ -115,6 +129,7 @@ public abstract class Creature extends ElementDeJeu implements Deplacable{
         this.pagePar = pagePar;
     }
     
+
     /**
     * Déplace aléatoirement le personnage d'au plus une case
     * horizontalement et verticalement.

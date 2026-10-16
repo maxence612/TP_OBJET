@@ -17,7 +17,6 @@ public abstract class Personnage extends Creature{
     private int distAttMax;
     /**
      *
-     * @param nom nom du personnage
      * @param ptVie points de vie initiaux
      * @param degAtt nombre de dégat initiaux infligé par attaque
      * @param ptPar nombre points parade initiaux
@@ -27,8 +26,7 @@ public abstract class Personnage extends Creature{
      * @param pos position initiale du personnage
      */
     public Personnage(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
-        super(ptVie, degAtt, ptPar, pageAtt, pagePar,pos);
-        this.nom = nom;
+        super(ptVie, degAtt, ptPar, pageAtt, pagePar,pos, nom);
         this.distAttMax = distAttMax;
     }
     
@@ -38,7 +36,6 @@ public abstract class Personnage extends Creature{
      */
     public Personnage(Personnage perso){
         super(perso);
-        this.nom = perso.getNom();
         this.distAttMax = perso.getDistAttMax();
     }
     
@@ -50,19 +47,10 @@ public abstract class Personnage extends Creature{
         5,
         20,
         20,
-        2,
+        100,
         new Point2D(-1,-1) ); 
     }
     
-
-    public String getNom(){
-        return this.nom;
-    }
-    
-
-    public void setNom(String nom){
-        this.nom=nom;
-    }
 
 
     public int getDistAttMax() {
@@ -78,7 +66,7 @@ public abstract class Personnage extends Creature{
      * Affiche le nom du personnage, sa position et so nombre de point de vie.
      */
     public void affiche(){
-        System.out.println(this.nom+" est en "+this.getPos().getX()+";"+this.getPos().getY()+" avec "+this.getPtVie()+" points de vie" );
+        System.out.println(this.getNom()+" est en "+this.getPos().getX()+";"+this.getPos().getY()+" avec "+this.getPtVie()+" points de vie" );
     }
     
 }
