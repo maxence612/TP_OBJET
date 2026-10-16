@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Joueur {
+public class Joueur implements Combattant {
 
     private Personnage perso;
     private Inventaire inventaire;
@@ -62,4 +62,12 @@ public class Joueur {
         return this.inventaire;
     }
 
+    public void combattre(Creature c) {
+        if (this.getPerso() instanceof Guerrier) {
+            ((Guerrier) this.getPerso()).combattre(c);
+        } else if (this.getPerso() instanceof Archer) {
+            ((Archer) this.getPerso()).combattre(c);
+        }
+    
+    }
 }
