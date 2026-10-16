@@ -28,6 +28,7 @@ public class Inventaire {
     }
 
     public void affiche() {
+        System.out.println("# # # # # # # # # # # # #");
         System.out.println("Inventaire :");
         System.out.println("Remplis : " + objets.size() + "/" + capaciteMax);
         for (Objet objet : objets) {
@@ -36,6 +37,7 @@ public class Inventaire {
             
         }
         System.out.println("- - - - - - - - - - - - -");
+        System.out.println("# # # # # # # # # # # # #");
     }
 
     public int getCapaciteMax() {

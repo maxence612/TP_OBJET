@@ -27,6 +27,7 @@ public class ProjetTP {
                 monde.creerCreaturesAlea(10);
                 monde.creerObjetsAlea(10);
                 monde.creationJoueur();
+                monde.creerNuagesAlea(5);
                 monde.placerCreaturesEtObjetsEtPerso();
 
         
@@ -59,7 +60,6 @@ public class ProjetTP {
 
         
         while(true){
-            monde.afficheWorld();
             monde.tourDeJeu();
         }
 
