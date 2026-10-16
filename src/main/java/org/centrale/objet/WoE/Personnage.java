@@ -44,7 +44,7 @@ public abstract class Personnage extends Creature{
              5,
              100,
              20,
-             2,
+             100,
              new Point2D(-1, -1));
     }
     

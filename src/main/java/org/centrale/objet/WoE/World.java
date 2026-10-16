@@ -236,6 +236,7 @@ public class World {
             System.out.println("Qui voulez-vous attaquer ?");
             for (int i = 0; i < cibles.size(); i++) {
                 Creature c = cibles.get(i);
+                System.out.print((i + 1) + ". ");
                 c.afficheDetails();
                         
             }
@@ -246,8 +247,8 @@ public class World {
             } else if (ennemi > 0 && ennemi <= cibles.size()) {
                 Creature cible = cibles.get(ennemi - 1);
                 joueur.combattre(cible);
-                System.out.println("Vous avez attaqué " + cible.getClass().getName()
-                        + " (PV restants : " + cible.getPtVie() + ")");
+                System.out.print("Vous avez attaqué ");
+                System.out.println(cible.getNom());
             } else {
                 System.out.println("Choix invalide, veuillez réessayer.");
 
