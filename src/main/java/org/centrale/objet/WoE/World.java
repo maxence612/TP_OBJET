@@ -210,7 +210,45 @@ public class World {
     }
     else if (choix.equals("b")){
         System.out.println("Gros Gourmand");
+        List<Creature> cibles = new ArrayList<>();
+        int rayon = (int) Math.sqrt(joueur.getPerso().getDistAttMax());
+        int x = joueur.getPerso().getPos().getX();
+        int y = joueur.getPerso().getPos().getY();
+    for (int i = x - rayon; i <= x + rayon; i++) {
+        for (int j = y - rayon; j <= y + rayon; j++) {
+            if (i >= 0 && i < largeur && j >= 0 && j < longueur && !(i == x && j == y) ) {
+                if (carte[i][j] instanceof Creature) {
+                    cibles.add((Creature) carte[i][j]);
+                }
+        }
     }
+}
+        if (cibles.isEmpty()) {
+            System.out.println("Aucune créature à portée.");
+        }
+        else {
+            System.out.println("Qui voulez-vous attaquer ?");
+            for (int i = 0; i < cibles.size(); i++) {
+                Creature c = cibles.get(i);
+                System.out.println((i + 1) + " - " + c.getClass().getName()
+                        + " (PV : " + c.getPtVie() + ")");
+                        
+            }
+            int ennemi = Integer.parseInt(sc.next());
+            if (ennemi == 0) {
+                System.out.println("Vous avez choisi de ne pas attaquer.");
+            } else if (ennemi > 0 && ennemi <= cibles.size()) {
+                Creature cible = cibles.get(ennemi - 1);
+                joueur.combattre(cible);
+                System.out.println("Vous avez attaqué " + cible.getClass().getName()
+                        + " (PV restants : " + cible.getPtVie() + ")");
+            } else {
+                System.out.println("Choix invalide, veuillez réessayer.");
+
+            }
+        }
+    }
+
     else{
         System.out.println("Choix invalide, veuillez réessayer.");
     }
@@ -261,5 +299,9 @@ public class World {
 
         return true;
     }
+    /**
+ * Retourne la liste des créatures situées à une distance < 1 du joueur.
+ * (le joueur lui-même est exclu)
+ */
 
 }
