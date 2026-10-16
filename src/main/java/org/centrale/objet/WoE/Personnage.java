@@ -29,7 +29,7 @@ public abstract class Personnage extends Creature{
      */
 
     private static final ArrayList<String> listePrenom =
-            new ArrayList<>(Arrays.asList("Ethan", "Léa", "Hugo", "Emma"));
+            new ArrayList<>(Arrays.asList("Ethan", "Mobutu", "Bastian", "Benay","Louis BDA","Maxence"));
 
     private static final Random random = new Random();
 
