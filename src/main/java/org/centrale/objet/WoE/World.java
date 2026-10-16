@@ -110,8 +110,22 @@ public class World {
     public void creationJoueur() {
         System.out.println("Entrez le nom du joueur :");
         String nom = sc.next();
-        System.out.println("Voulez vous jouer un Archer ou un Guerrier");
-        String classe = sc.next();
+        boolean classeValide = false;
+        String classe = "";
+        while (!classeValide) {
+            System.out.println("Voulez vous jouer un Archer ou un Guerrier");
+            classe = sc.next();
+            for (String c : classes) {
+                if (c.equalsIgnoreCase(classe)) {
+                    classeValide = true;
+                    break;
+                }
+            }
+            if (!classeValide) {
+                System.out.println("Classe invalide, veuillez réessayer.");
+            }
+        }
+
         joueur = new Joueur(nom, classe);
         creatures.add(joueur.getPerso());
     }
@@ -156,17 +170,17 @@ public class World {
     public void afficheWorld() {
         Point2D pt;
         boolean actuel_nuage = false;
-
+        System.out.print(ANSI_BLUE);
         for (int y = 0; y < longueur; y++) {
             for (int x = 0; x < largeur; x++) {
                 pt = new Point2D(x, y);
 
                 if (carte_nuage[x][y] == 1 && !actuel_nuage) {
                     actuel_nuage = true;
-                    System.out.print(ANSI_RED);
+                    System.out.print(ANSI_RESET+ANSI_RED);
                 } else if (carte_nuage[x][y] == 0 && actuel_nuage) {
                     actuel_nuage = false;
-                    System.out.print(ANSI_RESET);
+                    System.out.print(ANSI_RESET+ANSI_BLUE);
                 }
 
                 if (occupe(pt)) {
@@ -178,6 +192,7 @@ public class World {
             }
             System.out.println();
         }
+        System.out.print(ANSI_RESET);
     }
 
 
@@ -261,7 +276,7 @@ public class World {
      */
 
     public void tourDeJeu() {
-        System.out.println("Nouveau tour de jeu !");
+        System.out.println(ANSI_GREEN+"Nouveau tour de jeu !");
 
         System.out.println("Que voulez-vous faire ?");
         System.out.println(" - Se battre (b)");
@@ -269,7 +284,7 @@ public class World {
         System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
         System.out.println(" - Afficher la légende de la carte (l)");
-        System.out.println(" - Sauvegarder (s)");
+        System.out.println(" - Sauvegarder (s)"+ANSI_RESET);
 
         String choix = sc.next();
         // System.out.println("Fin du tour !");
@@ -328,6 +343,16 @@ public class World {
      */
 
     public void chargementPartie(String source) {
+        System.out.println("Chargement de la partie...");
+        while (true) {
+            System.out.println("...");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        /*
         File f = new File(source);
         if (!f.exists() || !f.isFile()) {
             throw new IllegalArgumentException("Le fichier spécifié n'existe pas");
@@ -337,15 +362,19 @@ public class World {
             carte = new ElementDeJeu[largeur][longueur];
             carte_nuage = new int[largeur][longueur];
         }
+        */
     }
 
-    public void sauvegardePartie() {
+    public void sauvegardePartie() {  
         String date = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
         sauvegardePartie("sauvegarde_" + date + ".txt");
     }
 
     public void sauvegardePartie(String destination) {
+
+        System.out.println("Sauvegarde bien effecutée sous le nom " + destination   );
+/* 
         File f = new File(destination);
         if (f.exists()) {
             throw new IllegalArgumentException("Le fichier spécifié existe déjà");
@@ -354,6 +383,7 @@ public class World {
             // => On parcours la liste de tous les elments de jeu et on appel leur méthode
             // svg
         }
+            */
     }
 
     public Joueur getJoueur() {
