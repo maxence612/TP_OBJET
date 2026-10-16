@@ -11,6 +11,7 @@ public class ProjetTP {
 
     private static Scanner sc = new Scanner(System.in); 
     private static World monde;
+    private static boolean partieLancee = false;
     public static void main(String[] args) {
         System.out.println("Et c'est parti !");
         System.out.println("---Démarrage---");
@@ -32,11 +33,13 @@ public class ProjetTP {
 
         
                 monde.afficheWorld();
+                partieLancee = true;
 
                 break;
             }
             
             else if(choix.equals("2")){
+                
                 while(true){
                     System.out.println("Veuillez entrer le nom de la partie à charger :");
                     String nomPartie = sc.next();
@@ -59,7 +62,7 @@ public class ProjetTP {
         
 
         
-        while(true){
+        while(partieLancee){
             monde.tourDeJeu();
         }
 
