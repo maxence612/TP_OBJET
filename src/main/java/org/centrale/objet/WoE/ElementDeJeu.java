@@ -4,6 +4,9 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Corentin Godard et Maxence Schwerer
@@ -32,7 +35,7 @@ public abstract class ElementDeJeu {
     }
     
     public abstract void aff_lettre();
-    
+
     
 }
 

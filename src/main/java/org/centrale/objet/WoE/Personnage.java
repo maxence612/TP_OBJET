@@ -1,4 +1,6 @@
 package org.centrale.objet.WoE;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -25,6 +27,27 @@ public abstract class Personnage extends Creature{
      * @param distAttMax distance initiale maximale de l'attaque
      * @param pos position initiale du personnage
      */
+
+    private static final ArrayList<String> listePrenom =
+            new ArrayList<>(Arrays.asList("Ethan", "Léa", "Hugo", "Emma"));
+
+    private static final Random random = new Random();
+
+    private static String prenomAuHasard() {
+        return listePrenom.get(random.nextInt(listePrenom.size()));
+    }
+
+    public Personnage() {
+        this(prenomAuHasard(),
+             100,
+             50,
+             5,
+             100,
+             20,
+             100,
+             new Point2D(-1, -1));
+    }
+    
     public Personnage(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos) {
         super(ptVie, degAtt, ptPar, pageAtt, pagePar,pos, nom);
         this.distAttMax = distAttMax;
@@ -38,18 +61,7 @@ public abstract class Personnage extends Creature{
         super(perso);
         this.distAttMax = perso.getDistAttMax();
     }
-    
 
-    public Personnage(){
-        this("Ethan",
-        100,
-        50,
-        5,
-        100,
-        20,
-        100,
-        new Point2D(-1,-1) ); 
-    }
     
 
 
