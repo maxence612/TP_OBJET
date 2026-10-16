@@ -43,6 +43,79 @@ public class World {
         return carte[p.getX()][p.getY()] != null;
     }
 
+        /**
+     * Permet de créer un certain nombre de créatures aléatoires.
+     * @param nombre_perso le nombre de créatures à créer
+     */
+    public void creerCreaturesAlea(int nombre_perso) {
+        Random rd = new Random();
+        int nombre_race;
+        for (int i = 0; i < nombre_perso; i++) {
+            nombre_race = rd.nextInt(5);
+            if (nombre_race == 0) {
+                creatures.add(new Guerrier());
+            }
+            if (nombre_race == 1) {
+                creatures.add(new Paysan());
+            }
+            if (nombre_race == 2) {
+                creatures.add(new Archer());
+            }
+            if (nombre_race == 3) {
+                creatures.add(new Loup());
+            }
+            if (nombre_race == 4) {
+                creatures.add(new Lapin());
+            }
+        }
+
+    }
+
+    public void creerObjetsAlea(int nombre_objets) {
+        Random rd = new Random();
+        int nombre_race;
+        for (int i = 0; i < nombre_objets; i++) {
+            nombre_race = rd.nextInt(2);
+            if (nombre_race == 0) {
+                objets.add(new Epee());
+            }
+            if (nombre_race == 1) {
+                objets.add(new PotionSoin());
+            }
+
+        }
+
+    }
+
+    public void creerNuagesAlea(int nombre_nuages) {
+        Random rd = new Random();
+        int x, y, lg;
+        for (int i = 0; i < nombre_nuages; i++) {
+            x = rd.nextInt(this.largeur);
+            y = rd.nextInt(this.longueur);
+            lg= rd.nextInt(5) + 1;
+            while(lg>0 && x<largeur){
+                carte_nuage[x][y] = 1;
+                x++;
+                lg--;
+            }
+          
+        }
+    }
+    
+    /**
+     *
+     * Création du joueur au début de la partie
+     */
+    public void creationJoueur() {
+        System.out.println("Entrez le nom du joueur :");
+        String nom = sc.next();
+        System.out.println("Voulez vous jouer un Archer ou un Guerrier");
+        String classe = sc.next();
+        joueur = new Joueur(nom, classe);
+        creatures.add(joueur.getPerso());
+    }
+
     /**
      *
      * Sert à placer les créatures et les objets générés précédement sur la carte
@@ -165,64 +238,22 @@ public class World {
         }
     }
 
-    /**
-     *
-     * Permet de créer un certain nombre de créatures aléatoires.
-     * 
-     * @param nombre_perso le nombre de créatures à créer
-     */
-    public void creerCreaturesAlea(int nombre_perso) {
-        Random rd = new Random();
-        int nombre_race;
-        for (int i = 0; i < nombre_perso; i++) {
-            nombre_race = rd.nextInt(5);
-            if (nombre_race == 0) {
-                creatures.add(new Guerrier());
-            }
-            if (nombre_race == 1) {
-                creatures.add(new Paysan());
-            }
-            if (nombre_race == 2) {
-                creatures.add(new Archer());
-            }
-            if (nombre_race == 3) {
-                creatures.add(new Loup());
-            }
-            if (nombre_race == 4) {
-                creatures.add(new Lapin());
-            }
-        }
-
+    public void afficheLegende() {
+        System.out.println(ANSI_YELLOW + "# # # # # # # # # # # # #");
+        System.out.println("Légende :");
+        System.out.println(" . : Case vide");
+        System.out.println("[rouge] : Nuage toxique");
+        System.out.println("P : Paysan");
+        System.out.println("G : Guerrier");
+        System.out.println("A : Archer");
+        System.out.println("L : Loup");
+        System.out.println("R : Lapin");
+        System.out.println("E : Epee");
+        System.out.println("H : Potion de soin");
+        System.out.println("# # # # # # # # # # # # #" + ANSI_RESET);
     }
 
-    public void creerObjetsAlea(int nombre_objets) {
-        Random rd = new Random();
-        int nombre_race;
-        for (int i = 0; i < nombre_objets; i++) {
-            nombre_race = rd.nextInt(2);
-            if (nombre_race == 0) {
-                objets.add(new Epee());
-            }
-            if (nombre_race == 1) {
-                objets.add(new PotionSoin());
-            }
 
-        }
-
-    }
-
-    /**
-     *
-     * Création du joueur au début de la partie
-     */
-    public void creationJoueur() {
-        System.out.println("Entrez le nom du joueur :");
-        String nom = sc.next();
-        System.out.println("Voulez vous jouer un Archer ou un Guerrier");
-        String classe = sc.next();
-        joueur = new Joueur(nom, classe);
-        creatures.add(joueur.getPerso());
-    }
 
     /**
      *
@@ -237,6 +268,7 @@ public class World {
         System.out.println(" - Se déplacer (d)");
         System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
+        System.out.println(" - Afficher la légende de la carte (l)");
         System.out.println(" - Sauvegarder (s)");
 
         String choix = sc.next();
@@ -251,6 +283,8 @@ public class World {
             sauvegardePartie();
         } else if (choix.equals("b")) {
             action_attaquer();
+        } else if (choix.equals("l")) {
+            afficheLegende();   
         } else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
@@ -270,7 +304,7 @@ public class World {
         if(joueurPrincipal && carte[x][y] instanceof Inventorable){ 
             joueur.getInventaire().ajouterObjet( (Objet) carte[x][y]);
             carte[x][y] = null;
-            System.out.println("Vous avez ramassé un objet !");
+            System.out.println(ANSI_GREEN + "Vous avez ramassé un objet !" + ANSI_RESET);
         }
 
         if (carte[x][y] != null) {
