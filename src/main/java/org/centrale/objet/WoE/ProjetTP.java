@@ -56,6 +56,7 @@ public class ProjetTP {
                         String nomPartie = fichiers[choixFichier - 1].getName();
                         try{
                             monde = new World(nomPartie);
+                            partieLancee=true;
                             break;
                         }
                         catch(Exception e){
