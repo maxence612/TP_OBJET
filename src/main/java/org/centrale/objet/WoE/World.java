@@ -194,7 +194,7 @@ public class World {
                     System.out.print(ANSI_RESET+ANSI_BLUE);
                 }
 
-                if(pt == joueurPos){
+                if(pt.equals(joueurPos)){
                     System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
                 }
                 else if (occupe(pt)) {
@@ -284,7 +284,20 @@ public class World {
         System.out.println("# # # # # # # # # # # # #" + ANSI_RESET);
     }
 
-
+    public void action_inventaire(){
+        joueur.getInventaire().affiche();
+        System.out.println("Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
+        int choix = Integer.parseInt(sc.next());
+        if (choix == 0){
+            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+        }
+        else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
+            Inventorable objet = joueur.getInventaire().getObjets().get(choix - 1);
+            objet.utiliser(joueur.getPerso());
+        } else {
+            System.out.println("Choix invalide, veuillez réessayer.");
+        }
+    }
 
     /**
      *
@@ -299,6 +312,7 @@ public class World {
         System.out.println(" - Se déplacer (d)");
         System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
+        System.out.println(" - Utiliser un objet de l'inventaire (u)");
         System.out.println(" - Afficher la légende de la carte (l)");
         System.out.println(" - Sauvegarder (s)");
         System.out.println(" - Quitter (q)"+ANSI_RESET);
@@ -321,7 +335,10 @@ public class World {
         } else if (choix.equals("q")) {
             System.out.println("A bientôt !");
             System.exit(0);
-        } else {
+        } else if (choix.equals("u")) {
+            action_inventaire();
+        }
+        else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
 
@@ -338,7 +355,7 @@ public class World {
 
         //ramasser un objet si le joueur se déplace sur une case contenant un objet
         if(joueurPrincipal && carte[x][y] instanceof Inventorable){ 
-            joueur.getInventaire().ajouterObjet( (Objet) carte[x][y]);
+            joueur.getInventaire().ajouterObjet( (Inventorable) carte[x][y]);
             carte[x][y] = null;
             System.out.println(ANSI_GREEN + "Vous avez ramassé un objet !" + ANSI_RESET);
         }
