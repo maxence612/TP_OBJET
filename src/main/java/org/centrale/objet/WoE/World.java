@@ -21,7 +21,7 @@ public class World {
     private int largeur;
     private int longueur;
     private ElementDeJeu[][] carte;
-    private int[][] carte_nuage; // Tab 1 si nuage toxique, 0 sinon (possible de metre 3,4...)
+    private NuageToxique[][] carte_nuage;
     private List<Creature> creatures = new ArrayList<>();
     private List<Objet> objets = new ArrayList<>();
     public Joueur joueur;
@@ -37,12 +37,12 @@ public class World {
         this.largeur = largeur;
         this.longueur = longueur;
         this.carte = new ElementDeJeu[this.largeur][this.longueur];
-        this.carte_nuage = new int[this.largeur][this.longueur];
+        this.carte_nuage = new NuageToxique[this.largeur][this.longueur];
         creerCreaturesAlea(10);
         creerObjetsAlea(10);
         creationJoueur();
         creerNuagesAlea(5);
-        placerCreaturesEtObjetsEtPerso();
+        placerElementsAleatoirement();
     }
 
     private boolean occupe(Point2D p) {
@@ -102,7 +102,9 @@ public class World {
             y = rd.nextInt(this.longueur);
             lg = rd.nextInt(5) + 1;
             while (lg > 0 && x < largeur) {
-                carte_nuage[x][y] = 1;
+                NuageToxique nuage = new NuageToxique();
+                nuage.setPos(new Point2D(x, y));
+                carte_nuage[x][y] = nuage;
                 x++;
                 lg--;
             }
@@ -140,7 +142,7 @@ public class World {
      *
      * Sert à placer les créatures et les objets générés précédement sur la carte
      */
-    public void placerCreaturesEtObjetsEtPerso() {
+    public void placerElementsAleatoirement() {
 
         Random genRand = new Random();
         int x = genRand.nextInt(this.largeur);
@@ -177,6 +179,23 @@ public class World {
 
     }
 
+    public void placerElementsCharges() {
+        for (Creature c : creatures) {
+            Point2D p = c.getPos();
+            carte[p.getX()][p.getY()] = c;
+        }
+
+        for (Objet o : objets) {
+            Point2D p = o.getPos();
+            carte[p.getX()][p.getY()] = o;
+        }
+
+        Point2D p = joueur.getPerso().getPos();
+        carte[p.getX()][p.getY()] = joueur.getPerso();
+    }
+
+
+
     /**
      *
      * Permet d'afficher le monde dans la console, en affichant les lettres
@@ -194,10 +213,10 @@ public class World {
             for (int x = 0; x < largeur; x++) {
                 pt = new Point2D(x, y);
 
-                if (carte_nuage[x][y] == 1 && !actuel_nuage) {
+                if (carte_nuage[x][y] != null && !actuel_nuage) {
                     actuel_nuage = true;
                     System.out.print(ANSI_RESET + ANSI_RED);
-                } else if (carte_nuage[x][y] == 0 && actuel_nuage) {
+                } else if (carte_nuage[x][y] == null && actuel_nuage) {
                     actuel_nuage = false;
                     System.out.print(ANSI_RESET + ANSI_BLUE);
                 }
@@ -381,7 +400,7 @@ public class World {
     public void tourdeJeu_random() {
         Random rd = new Random();
         for (Creature c : creatures) {
-            int x = rd.nextInt(10);
+            int x = rd.nextInt(9);
             Point2D decalage = new Point2D(x);
             deplacerElementDeJeu(c, decalage, false);
         }
@@ -443,7 +462,7 @@ public class World {
             System.out.println("Erreur lors de la lecture du fichier : " + e.getMessage());
         }
         System.out.println("Placement des créatures, objets et du personnage...");
-        placerCreaturesEtObjetsEtPerso();
+        placerElementsCharges();
         System.out.println("Placement des créatures, objets et du personnage terminé.");
 
     }
@@ -465,7 +484,7 @@ public class World {
         if (elements.get(0).equals("Longueur")) {
             longueur = Integer.parseInt(elements.get(1));
             this.carte = new ElementDeJeu[this.largeur][this.longueur];
-            this.carte_nuage = new int[this.largeur][this.longueur];
+            this.carte_nuage = new NuageToxique[this.largeur][this.longueur];
             return true;
         }
         if (elements.get(0).equals("Joueur")) {
@@ -504,6 +523,15 @@ public class World {
                 System.out.println("Erreur : type d'objet inconnu dans l'inventaire.");
                 return false;
             }
+            return true;
+        }
+
+        if(elements.get(0).equals("NuageToxique")) {
+            int x = Integer.parseInt(elements.get(2));
+            int y = Integer.parseInt(elements.get(3));
+            NuageToxique nuage = new NuageToxique(Integer.parseInt(elements.get(1)));
+            nuage.setPos(new Point2D(x, y));
+            carte_nuage[x][y] = nuage;
             return true;
         }
 
@@ -597,6 +625,16 @@ public class World {
                 writer.write(o.info_svg());
                 writer.newLine();
             }
+
+            for (int i = 0; i < largeur; i++) {
+                for (int j = 0; j < longueur; j++) {
+                    if (carte_nuage[i][j] != null) {
+                        writer.write(carte_nuage[i][j].info_svg());
+                        writer.newLine();
+                    }
+                }
+            }
+
             writer.write(joueur.info_svg());
             writer.newLine();
             for (Objet o : joueur.getInventaire().getObjets()) {

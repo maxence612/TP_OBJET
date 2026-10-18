@@ -6,6 +6,9 @@ public class NuageToxique extends Objet implements Combattant,Deplacable{
     public NuageToxique() {
         super();
     }
+    public NuageToxique(int durabilite) {
+        super(durabilite);
+    }
 
     public void combattre(Creature c) {
         c.setPtVie(c.getPtVie()-10);
