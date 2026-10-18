@@ -62,7 +62,9 @@ public class ProjetTP {
 
         
 
-        monde.sauvegardePartie();
+        monde.sauvegardePartie("sauvegarde");
+        World monde2 = new World("sauvegarde.txt");
+        monde2.sauvegardePartie("sauvegarde2");
         partieLancee = true;
         while(partieLancee){
             monde.tourDeJeu();

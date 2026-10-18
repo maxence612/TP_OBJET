@@ -288,28 +288,27 @@ public class World {
         joueur.getInventaire().affiche();
         System.out.println(
                 "Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
-        while (true){
-                try {
-            choix = Integer.parseInt(sc.next());
-        } catch (NumberFormatException e) {
-            System.out.println("Veuillez entrer un nombre.");
-        }
-        if (choix == 0) {
-            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
-            break;
-        } else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
-            Inventorable objet = joueur.getInventaire().getObjets().get(choix - 1);
-            objet.utiliser(joueur.getPerso());
-            if (objet.getDurabilite() == 0) {
-                joueur.getInventaire().getObjets().remove(objet);
+        while (true) {
+            try {
+                choix = Integer.parseInt(sc.next());
+            } catch (NumberFormatException e) {
+                System.out.println("Veuillez entrer un nombre.");
             }
-            break;
-        } else {
-            System.out.println("Choix invalide, veuillez réessayer.");
+            if (choix == 0) {
+                System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+                break;
+            } else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
+                Inventorable objet = joueur.getInventaire().getObjets().get(choix - 1);
+                objet.utiliser(joueur.getPerso());
+                if (objet.getDurabilite() == 0) {
+                    joueur.getInventaire().getObjets().remove(objet);
+                }
+                break;
+            } else {
+                System.out.println("Choix invalide, veuillez réessayer.");
+            }
         }
     }
-}
-
 
     /**
      *
@@ -355,15 +354,16 @@ public class World {
         tourdeJeu_random();
     }
 
-    public void tourdeJeu_random(){
+    public void tourdeJeu_random() {
         Random rd = new Random();
-        for (Creature c : creatures){
-           int x = rd.nextInt(10);
-           Point2D decalage = new Point2D(x);
-           deplacerElementDeJeu(c, decalage, false);
+        for (Creature c : creatures) {
+            int x = rd.nextInt(10);
+            Point2D decalage = new Point2D(x);
+            deplacerElementDeJeu(c, decalage, false);
         }
 
     }
+
     public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage, boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
@@ -417,7 +417,7 @@ public class World {
             System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
         }
 
-        //TODO Placer les créatures et les objets sur la carte
+        // TODO Placer les créatures et les objets sur la carte
 
     }
 
@@ -442,64 +442,102 @@ public class World {
         if (elements.get(0).equals("Joueur")) {
             Personnage perso;
             Point2D pos = new Point2D(Integer.parseInt(elements.get(10)), Integer.parseInt(elements.get(11)));
-            String typePerso= elements.get(2);
-            if (typePerso.equalsIgnoreCase("Guerrier")){
-                perso = new Guerrier( elements.get(3), Integer.parseInt(elements.get(4)),
-                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
-                    Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
-                    Integer.parseInt(elements.get(9)), pos);         
+            String typePerso = elements.get(2);
+            if (typePerso.equalsIgnoreCase("Guerrier")) {
+                perso = new Guerrier(elements.get(3), Integer.parseInt(elements.get(4)),
+                        Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                        Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
+                        Integer.parseInt(elements.get(9)), pos);
+            } else { // typePerso.equalsIgnoreCase("Archer")
+                perso = new Archer(elements.get(3), Integer.parseInt(elements.get(4)),
+                        Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                        Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
+                        Integer.parseInt(elements.get(9)), pos, Integer.parseInt(elements.get(12)));
             }
-            else { // typePerso.equalsIgnoreCase("Archer")
-                perso = new Archer( elements.get(3), Integer.parseInt(elements.get(4)),
-                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
-                    Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
-                    Integer.parseInt(elements.get(9)), pos, Integer.parseInt(elements.get(12)));  
-            };
+            ;
 
             joueur = new Joueur(perso, Integer.parseInt(elements.get(1)));
             return true;
         }
 
         if (elements.get(0).equals("Inventaire")) {
-            if(joueur==null){
+            if (joueur == null) {
                 System.out.println("Erreur : le joueur n'a pas été créé avant l'inventaire.");
                 return false;
-            }
-            else if(elements.get(1).equals("PotionSoin")){
-                PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)), true);
+            } else if (elements.get(1).equals("PotionSoin")) {
+                PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)),
+                        true);
                 joueur.getInventaire().ajouterObjet(potion);
-            }
-            else if(elements.get(1).equals("Epee")){
+            } else if (elements.get(1).equals("Epee")) {
                 Epee epee = new Epee(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)), true);
                 joueur.getInventaire().ajouterObjet(epee);
-            }
-            else{
+            } else {
                 System.out.println("Erreur : type d'objet inconnu dans l'inventaire.");
                 return false;
             }
             return true;
         }
 
-        if (elements.get(0).equals("Epee")){
+        if (elements.get(0).equals("Epee")) {
             Point2D pos = new Point2D(Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)));
             Epee epee = new Epee(Integer.parseInt(elements.get(1)), Integer.parseInt(elements.get(2)), pos);
             objets.add(epee);
             return true;
         }
-        if (elements.get(0).equals("PotionSoin")){
+        if (elements.get(0).equals("PotionSoin")) {
             Point2D pos = new Point2D(Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)));
-            PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(1)), Integer.parseInt(elements.get(2)), pos);
+            PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(1)), Integer.parseInt(elements.get(2)),
+                    pos);
             objets.add(potion);
             return true;
         }
 
         if (elements.get(0).equals("Guerrier")) {
-
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(8)), Integer.parseInt(elements.get(9)));
+            Guerrier guerrier = new Guerrier(elements.get(1), Integer.parseInt(elements.get(2)),
+                    Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                    Integer.parseInt(elements.get(7)), pos);
+            creatures.add(guerrier);
             return true;
         }
-        
-//|| elements.get(0).equals("Archer") || elements.get(0).equals("Paysan") || elements.get(0).equals("Loup") || elements.get(0).equals("Lapin")) {
 
+        if (elements.get(0).equals("Archer")) {
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(8)), Integer.parseInt(elements.get(9)));
+            Archer archer = new Archer(elements.get(1), Integer.parseInt(elements.get(2)),
+                    Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                    Integer.parseInt(elements.get(7)), pos, Integer.parseInt(elements.get(10)));
+            creatures.add(archer);
+            return true;
+        }
+        if (elements.get(0).equals("Paysan")) {
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(8)), Integer.parseInt(elements.get(9)));
+            Paysan paysan = new Paysan(elements.get(1), Integer.parseInt(elements.get(2)),
+                    Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                    Integer.parseInt(elements.get(7)), pos);
+            creatures.add(paysan);
+            return true;
+        }
+        if (elements.get(0).equals("Loup")) {
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)));
+            Loup loup = new Loup(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)),
+                    Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                   pos, elements.get(1));
+            creatures.add(loup);
+            return true;
+        }
+        if (elements.get(0).equals("Lapin")) {
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)));
+            Lapin lapin = new Lapin(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)),
+                    Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                   pos, elements.get(1));
+            creatures.add(lapin);
+            return true;
+        }
 
         return false;
     }
