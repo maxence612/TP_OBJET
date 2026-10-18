@@ -43,5 +43,8 @@ public class Lapin extends Monstre{
      public void afficheDetails(){
         System.out.println("Lapin : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
+    public String info_svg() {
+        return("");
+    }
     
 }

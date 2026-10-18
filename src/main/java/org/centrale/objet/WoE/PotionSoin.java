@@ -4,7 +4,7 @@ package org.centrale.objet.WoE;
  *
  * @author Maxence SCHWERER et Corentin GODARD
  */
-public class PotionSoin extends Objet implements Inventorable{
+public class PotionSoin extends Inventorable{
      /**
      * Quantité de point de vie soigné
      */
@@ -43,6 +43,15 @@ public class PotionSoin extends Objet implements Inventorable{
         setDurabilite(getDurabilite()-1);
         if (getDurabilite()==0){
             System.out.println("La potion est vide");
+        }
+    }
+
+    public String info_svg() {
+        if(this.getEstDansInventaire()){
+            return("objet de l'inventaire");
+        }
+        else{
+            return("objet du monde");
         }
     }
 }

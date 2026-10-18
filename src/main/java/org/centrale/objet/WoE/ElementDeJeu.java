@@ -35,6 +35,7 @@ public abstract class ElementDeJeu {
     }
     
     public abstract void aff_lettre();
+    public abstract String info_svg();
 
     
 }

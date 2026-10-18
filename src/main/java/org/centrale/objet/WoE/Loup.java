@@ -47,4 +47,7 @@ public class Loup extends Monstre implements Combattant{
      public void afficheDetails(){
         System.out.println("Loup : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
+    public String info_svg() {
+        return("");
+    }
 }

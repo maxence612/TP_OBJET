@@ -45,4 +45,7 @@ public class Paysan extends Personnage{
      public void afficheDetails(){
         System.out.println("Paysan : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
+    public String info_svg() {
+        return("");
+    }
 }
