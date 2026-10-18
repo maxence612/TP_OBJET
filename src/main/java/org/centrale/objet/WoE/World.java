@@ -186,10 +186,16 @@ public class World {
                 }
 
                 if (occupe(pt)) {
-                    carte[x][y].aff_lettre();
-                } else {
-                    System.out.print(" . ");
-                }
+                    if (carte[x][y] == joueur.getPerso()) {
+                        System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
+                    } 
+                    else {
+                        carte[x][y].aff_lettre();
+                        }
+                } 
+                else {
+    System.out.print(" . ");
+}
 
             }
             System.out.println();
