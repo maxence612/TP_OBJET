@@ -40,6 +40,7 @@ public class PotionSoin extends Inventorable{
 
     public void utiliser(Creature c){
         c.setPtVie(c.getPtVie()+this.pvSoigne);
+        System.out.println("La potion a été utilisée, la créature a maintenant " + c.getPtVie() + " points de vie");
         setDurabilite(getDurabilite()-1);
         if (getDurabilite()==0){
             System.out.println("La potion est vide");
