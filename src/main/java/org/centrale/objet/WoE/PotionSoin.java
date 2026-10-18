@@ -48,7 +48,7 @@ public class PotionSoin extends Inventorable{
 
     public String info_svg() {
         if(this.getEstDansInventaire()){
-            return("objet de l'inventaire");
+            return("Inventaire " + "objet de l'inventaire");
         }
         else{
             return("objet du monde");

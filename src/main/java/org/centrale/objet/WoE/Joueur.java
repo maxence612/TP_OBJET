@@ -71,4 +71,7 @@ public class Joueur implements Combattant {
     
     }
 
+    public String info_svg() {
+        return("Joueur " + perso.info_svg() );
+    }
 }

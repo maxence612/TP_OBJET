@@ -122,10 +122,15 @@ public class Archer extends Personnage implements Combattant {
     public void aff_lettre() {
         System.out.print(" A ");
     }
-     public void afficheDetails(){
-        System.out.println("Archer : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
-    
-}
+
+    public void afficheDetails() {
+        System.out.println("Archer : " + this.getNom() + ", Points de vie : " + this.getPtVie() + ", Position : ("
+                + this.getPos().getX() + ", " + this.getPos().getY() + ")");
+
+    }
+    public String info_svg(){
+        return("");
+    }
 
     public String info_svg() {
         return ("");
