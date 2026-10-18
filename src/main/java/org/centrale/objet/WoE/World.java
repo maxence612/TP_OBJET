@@ -318,11 +318,10 @@ public class World {
 
     public void tourDeJeu() {
         System.out.println(ANSI_GREEN + "Nouveau tour de jeu !");
-
+        afficheWorld();
         System.out.println("Que voulez-vous faire ?");
         System.out.println(" - Se battre (b)");
         System.out.println(" - Se déplacer (d)");
-        System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
         System.out.println(" - Utiliser un objet de l'inventaire (u)");
         System.out.println(" - Afficher la légende de la carte (l)");
@@ -334,8 +333,6 @@ public class World {
         // System.out.println("Fin du tour !");
         if (choix.equals("d")) {
             action_deplacement();
-        } else if (choix.equals("a")) {
-            afficheWorld();
         } else if (choix.equals("i")) {
             joueur.getInventaire().affiche();
         } else if (choix.equals("s")) {
