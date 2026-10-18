@@ -11,11 +11,11 @@ public class Joueur implements Combattant {
 
     public Joueur(String name, String typePerso){
          Random rd = new Random();
-        if (typePerso.equals("Guerrier")){
+        if (typePerso.equalsIgnoreCase("Guerrier")){
             this.perso = new Guerrier();
             perso.setNom(name);            
         }
-        else if (typePerso.equals("Archer")){
+        else if (typePerso.equalsIgnoreCase("Archer")){
             this.perso = new Archer();
             ((Archer) perso).setNbFleches(rd.nextInt(11));
         }
@@ -70,4 +70,5 @@ public class Joueur implements Combattant {
         }
     
     }
+
 }

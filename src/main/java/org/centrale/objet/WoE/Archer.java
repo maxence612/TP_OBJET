@@ -127,4 +127,8 @@ public class Archer extends Personnage implements Combattant {
     
 }
 
+    public String info_svg() {
+        return ("");
+    }
+
 }
