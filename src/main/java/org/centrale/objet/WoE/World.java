@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -365,26 +366,65 @@ public class World {
 
     public void chargementPartie(String source) {
         System.out.println("Chargement de la partie...");
-        while (true) {
-            System.out.println("...");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+        try{
+            String ligne;
+            BufferedReader reader = new BufferedReader(new FileReader(source));
+            ligne = reader.readLine();
+            while(ligne != null) {
+                analyseLigneLue(ligne);
+                ligne = reader.readLine();
             }
+            reader.close();
+        } 
+        catch(IOException e){
+            System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
         }
-        /*
-        File f = new File(source);
-        if (!f.exists() || !f.isFile()) {
-            throw new IllegalArgumentException("Le fichier spécifié n'existe pas");
-        } else {
-            largeur = 50;
-            longueur = 50;
-            carte = new ElementDeJeu[largeur][longueur];
-            carte_nuage = new int[largeur][longueur];
-        }
-        */
+        
     }
+
+    private boolean analyseLigneLue(String ligne) {
+        
+        //découpage de la ligne
+        StringTokenizer st = new StringTokenizer(ligne, " ");
+        List<String> elements = new ArrayList<>();
+        while(st.hasMoreTokens()) {
+            elements.add(st.nextToken());
+        }
+
+        //analyse de la ligne
+        if(elements.get(0).equals("Largeur")){
+            largeur = Integer.parseInt(elements.get(1));
+            return true;
+        }
+        if(elements.get(0).equals("Longueur")){
+            longueur = Integer.parseInt(elements.get(1));
+            return true;
+        }
+        if(elements.get(0).equals("Joueur")){
+           /*  Personnage perso = new Personnage(elements.get(2), Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)), Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)), Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)), new Point2D(Integer.parseInt(elements.get(9)), Integer.parseInt(elements.get(10))));
+            joueur = new Joueur(elements.get(1), elements.get(2));
+            joueur.setPerso(perso);
+            return true;*/
+        }
+        if(elements.get(0).equals("Inventaire")){
+            
+            return true;
+        }
+        if(elements.get(0).equals("Epee") || elements.get(0).equals("PotionSoin") || elements.get(0).equals("NuageToxique")){
+            //TODO : créer l'objet et le placer sur la carte
+            return true;
+        }
+        
+        if(elements.get(0).equals("Guerrier") || elements.get(0).equals("Archer") || elements.get(0).equals("Paysan") || elements.get(0).equals("Loup") || elements.get(0).equals("Lapin")){
+            //TODO : créer la créature et la placer sur la carte
+            return true;
+        }
+        return false;
+    }
+
+
+
 
     public void sauvegardePartie() {  
         String date = java.time.LocalDateTime.now()
@@ -400,11 +440,11 @@ public class World {
         try{
             writer = new BufferedWriter(new FileWriter(destination));
             
-            writer.write("Largeur: " + largeur);
+            writer.write("Largeur " + largeur);
             writer.newLine();
-            writer.write("Longueur: " + longueur);
+            writer.write("Longueur " + longueur);
             writer.newLine();
-            writer.write(joueur.info_svg());
+            
             for(Creature c : creatures){
                 writer.write(c.info_svg());
                 writer.newLine();
@@ -413,6 +453,8 @@ public class World {
                 writer.write(o.info_svg());
                 writer.newLine();
             }
+            writer.write(joueur.info_svg());
+            writer.newLine();
             for(Objet o : joueur.getInventaire().getObjets()){
                 writer.write(o.info_svg());
                 writer.newLine();

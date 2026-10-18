@@ -76,6 +76,7 @@ public class Guerrier extends Personnage implements Combattant{
         System.out.println("Guerrier : " + this.getNom()+", Points de vie : " + this.getPtVie() + ", Position : (" + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
     public String info_svg() {
-        return("");
+        return("Guerrier " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar() + " " + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " " + this.getPos().getX() + " " + this.getPos().getY() );
+
     }
 }

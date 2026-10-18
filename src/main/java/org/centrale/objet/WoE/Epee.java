@@ -60,10 +60,10 @@ public class Epee extends Inventorable{
     }
     public String info_svg() {
         if(this.getEstDansInventaire()){
-            return("Inventaire " + "objet de l'inventaire");
+            return("Inventaire Epee " + this.getDegat() + " " + this.getDurabilite() );
         }
         else{
-            return("objet du monde");
+            return("Epee " + this.getDegat() + " " + this.getDurabilite() + " " + this.getPos().getX() + " " + this.getPos().getY());
         }
     }
     

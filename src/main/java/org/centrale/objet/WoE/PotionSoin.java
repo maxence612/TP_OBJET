@@ -48,10 +48,10 @@ public class PotionSoin extends Inventorable{
 
     public String info_svg() {
         if(this.getEstDansInventaire()){
-            return("Inventaire " + "objet de l'inventaire");
+            return("Inventaire PotionSoin " + this.getPvSoigne() + " " + this.getDurabilite() );
         }
         else{
-            return("objet du monde");
+            return("PotionSoin " + this.getPvSoigne() + " " + this.getDurabilite() + " " + this.getPos().getX() + " " + this.getPos().getY());
         }
     }
 }

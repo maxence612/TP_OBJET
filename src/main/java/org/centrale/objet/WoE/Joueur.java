@@ -1,5 +1,4 @@
 package org.centrale.objet.WoE;
-import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -9,6 +8,10 @@ public class Joueur implements Combattant {
     private Inventaire inventaire;
 
 
+    /**
+     * Constructeur utilisé dans le cas d'une nouvelle partie
+     * 
+     */
     public Joueur(String name, String typePerso){
          Random rd = new Random();
         if (typePerso.equalsIgnoreCase("Guerrier")){
@@ -46,6 +49,15 @@ public class Joueur implements Combattant {
     }
 
     /**
+     * Constructeur utilisé dans le cas d'une partie chargée
+     * 
+     */
+    public Joueur(Personnage perso){
+        this.perso = perso;
+    }
+
+
+    /**
      * Permet de faire avancer le joueur dans une direction donnée
      * @param direction la direction dans laquelle le joueur doit avancer
      */
@@ -72,6 +84,6 @@ public class Joueur implements Combattant {
     }
 
     public String info_svg() {
-        return("Joueur " + perso.info_svg() );
+        return("Joueur " + this.inventaire.getCapaciteMax()+ " " + perso.info_svg() );
     }
 }

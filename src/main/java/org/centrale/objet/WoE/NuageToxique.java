@@ -37,6 +37,6 @@ public class NuageToxique extends Objet implements Combattant,Deplacable{
         System.out.println("Vous ne pouvez pas utiliser le nuage toxique !");
     }
     public String info_svg() {
-        return("");
+        return("NuageToxique " + this.getDurabilite() + " " + this.getPos().getX() + " " + this.getPos().getY());
     }
 }
