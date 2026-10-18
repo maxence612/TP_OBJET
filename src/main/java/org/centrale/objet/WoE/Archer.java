@@ -67,20 +67,22 @@ public class Archer extends Personnage implements Combattant {
     public void combattre(Creature C) {
         // Combat Rapproché
         if (this.getPos().distance(C.getPos()) == 1) {
-            System.out.println("Combat au corps à corps entre " + this.getNom() + " et la créature");
+            System.out.println("Combat au corps à corps entre " + this.getNom() + " et " + C.getNom());
             Random genRand = new Random();
             int x = genRand.nextInt(100);
             if (x > this.getPageAtt()) {
-                System.out.println("La créature n'a pas perdu des points de vie");
+                System.out.println("Attaque ratée, " + C.getNom() + " n'a pas perdu de points de vie");
                 return;
             } else {
                 int y = genRand.nextInt(100);
                 if (y <= C.getPagePar()) {
-                    C.setPtVie(C.getPtVie() - this.getDegAtt() + C.getPtPar());
-                    System.out.println("La créature a perdu des points de vie");
-
-                } else {
                     System.out.println("La créature a paré l'attaque");
+                } else {
+                    int degats = this.getDegAtt() - C.getPtPar();
+                    if (degats < 0)
+                        degats = 0;
+                    C.setPtVie(C.getPtVie() - degats);
+                    System.out.println("La créature a perdu " + degats + " points de vie");
                 }
             }
         } else {
@@ -91,17 +93,18 @@ public class Archer extends Personnage implements Combattant {
                     Random genRand = new Random();
                     int x = genRand.nextInt(100);
                     if (x > this.getPageAtt()) {
-                        System.out.println("La créature n'a pas perdu des points de vie");
+                        System.out.println("Attaque ratée, " + C.getNom() + " n'a pas perdu de points de vie");
                         return;
                     } else {
                         int y = genRand.nextInt(100);
-                        if (y <= C.getPagePar()) {
-                            C.setPtVie(C.getPtVie() - this.getDegAtt() + C.getPtPar());
-                            System.out.println("La créature a perdu des points de vie");
-
-                        } else {
-                            System.out.println("La créature a paré l'attaque");
-                        }
+                       if (y <= C.getPagePar()) {
+    System.out.println("La créature a paré l'attaque");
+} else {
+    int degats = this.getDegAtt() - C.getPtPar();
+    if (degats < 0) degats = 0;
+    C.setPtVie(C.getPtVie() - degats);
+    System.out.println("La créature a perdu " + degats + " points de vie");
+}
                     }
                     this.nbFleches--;
                 } else {
@@ -128,7 +131,10 @@ public class Archer extends Personnage implements Combattant {
                 + this.getPos().getX() + ", " + this.getPos().getY() + ")");
 
     }
-    public String info_svg(){
-        return("Archer " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar() + " " + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " " + this.getPos().getX() + " " + this.getPos().getY() + " " + this.nbFleches);
+
+    public String info_svg() {
+        return ("Archer " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar() + " "
+                + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " " + this.getPos().getX()
+                + " " + this.getPos().getY() + " " + this.nbFleches);
     }
 }
