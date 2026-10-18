@@ -46,4 +46,8 @@ public class Inventaire {
     public void setCapaciteMax(int capaciteMax) {
         this.capaciteMax = capaciteMax;
     }
+
+    public List<Objet> getObjets() {
+        return objets;
+    }
 }

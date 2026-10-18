@@ -2,7 +2,7 @@ package org.centrale.objet.WoE;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,9 +284,11 @@ public class World {
         System.out.println(" - Afficher la carte (a)");
         System.out.println(" - Afficher l'inventaire (i)");
         System.out.println(" - Afficher la légende de la carte (l)");
-        System.out.println(" - Sauvegarder (s)"+ANSI_RESET);
+        System.out.println(" - Sauvegarder (s)");
+        System.out.println(" - Quitter (q)"+ANSI_RESET);
 
         String choix = sc.next();
+        screenReset();
         // System.out.println("Fin du tour !");
         if (choix.equals("d")) {
             action_deplacement();
@@ -300,6 +302,9 @@ public class World {
             action_attaquer();
         } else if (choix.equals("l")) {
             afficheLegende();   
+        } else if (choix.equals("q")) {
+            System.out.println("A bientôt !");
+            System.exit(0);
         } else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
@@ -368,26 +373,61 @@ public class World {
     public void sauvegardePartie() {  
         String date = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
-        sauvegardePartie("sauvegarde_" + date + ".txt");
+        sauvegardePartie("sauvegarde_" + date);
     }
 
     public void sauvegardePartie(String destination) {
+        destination = destination + ".txt";
+        //File f = new File(destination);
+
+        BufferedWriter writer = null;
+        try{
+            writer = new BufferedWriter(new FileWriter(destination));
+            
+            writer.write("Largeur: " + largeur);
+            writer.newLine();
+            writer.write("Longueur: " + longueur);
+            writer.newLine();
+            writer.write("Joueur");
+            for(Creature c : creatures){
+                writer.write(c.info_svg());
+                writer.newLine();
+            }
+            for(Objet o : objets){
+                writer.write(o.info_svg());
+                writer.newLine();
+            }
+            for(Objet o : joueur.getInventaire().getObjets()){
+                writer.write("Inventaire " + o.info_svg());
+                writer.newLine();
+            }
+
+        }
+        catch(IOException e){
+            System.out.println("Erreur lors de la sauvegarde de la partie : " + e.getMessage());
+        }
+        finally{
+            try{
+                if(writer != null){
+                    writer.close();
+                }
+            }
+            catch(IOException e){
+                System.out.println("Erreur lors de la fermeture du fichier : " + e.getMessage());
+            }
+        }
 
         System.out.println("Sauvegarde bien effecutée sous le nom " + destination   );
-/* 
-        File f = new File(destination);
-        if (f.exists()) {
-            throw new IllegalArgumentException("Le fichier spécifié existe déjà");
-        } else {
-            // Code pour sauvegarder la partie
-            // => On parcours la liste de tous les elments de jeu et on appel leur méthode
-            // svg
-        }
-            */
+            
     }
 
     public Joueur getJoueur() {
         return joueur;
+    }
+
+    public void screenReset(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }

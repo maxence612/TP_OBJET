@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author Corentin Godard et Maxence Schwerer
  */
-public class Epee extends Objet implements Inventorable{
+public class Epee extends Inventorable{
 
         /**
      * Durabilité de l'objet
@@ -56,6 +56,14 @@ public class Epee extends Objet implements Inventorable{
         setDurabilite(getDurabilite()-1);
         if (getDurabilite()==0){
             System.out.println("L'épée est cassée");
+        }
+    }
+    public String info_svg() {
+        if(this.getEstDansInventaire()){
+            return("objet de l'inventaire");
+        }
+        else{
+            return("objet du monde");
         }
     }
     
