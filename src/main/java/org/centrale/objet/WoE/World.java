@@ -36,8 +36,13 @@ public class World {
     public World(int largeur, int longueur) {
         this.largeur = largeur;
         this.longueur = longueur;
-        this.carte = new ElementDeJeu[largeur][longueur];
-        this.carte_nuage = new int[largeur][longueur];
+        this.carte = new ElementDeJeu[this.largeur][this.longueur];
+        this.carte_nuage = new int[this.largeur][this.longueur];
+        creerCreaturesAlea(10);
+        creerObjetsAlea(10);
+        creationJoueur();
+        creerNuagesAlea(5);
+        placerCreaturesEtObjetsEtPerso();
     }
 
     private boolean occupe(Point2D p) {
@@ -136,6 +141,7 @@ public class World {
      * Sert à placer les créatures et les objets générés précédement sur la carte
      */
     public void placerCreaturesEtObjetsEtPerso() {
+
         Random genRand = new Random();
         int x = genRand.nextInt(this.largeur);
         int y = genRand.nextInt(this.longueur);
@@ -310,6 +316,27 @@ public class World {
         }
     }
 
+    public void action_sauvegarder() {
+        System.out.print("Entrez le nom du fichier de sauvegarde ou '.' pour utiliser l'horodatage: ");
+        String nomFichier = sc.next();
+        if(nomFichier.equals(".")){
+            sauvegardePartie();
+            System.out.println(ANSI_GREEN + "Partie correctement sauvegardée !! " + ANSI_RESET);
+        }
+        else{
+            if (nomFichier.matches(".*[\\\\/:*?\"<>|].*")) {
+                System.out.println(ANSI_RED + "Le nom contient des caractères interdits, échec de la sauvegarde." + ANSI_RESET);
+
+            }
+            else if (!nomFichier.endsWith(".txt")) {
+                nomFichier += ".txt";
+                sauvegardePartie(nomFichier);
+                System.out.println(ANSI_GREEN + "Partie sauvegardée dans le fichier " + nomFichier + ANSI_RESET);
+            }
+        }
+        
+    }
+
     /**
      *
      * Tour de jeu du joueur
@@ -335,7 +362,7 @@ public class World {
         } else if (choix.equals("i")) {
             joueur.getInventaire().affiche();
         } else if (choix.equals("s")) {
-            sauvegardePartie();
+            action_sauvegarder();
         } else if (choix.equals("b")) {
             action_attaquer();
         } else if (choix.equals("l")) {
@@ -400,21 +427,24 @@ public class World {
 
     public void chargementPartie(String source) {
         System.out.println("Chargement de la partie...");
+        System.out.println("Fichier source : " + source);
 
         try {
             String ligne;
             BufferedReader reader = new BufferedReader(new FileReader(source));
             ligne = reader.readLine();
             while (ligne != null) {
+                System.out.println("Ligne lue : " + ligne);
                 analyseLigneLue(ligne);
                 ligne = reader.readLine();
             }
             reader.close();
         } catch (IOException e) {
-            System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
+            System.out.println("Erreur lors de la lecture du fichier : " + e.getMessage());
         }
-
-        // TODO Placer les créatures et les objets sur la carte
+        System.out.println("Placement des créatures, objets et du personnage...");
+        placerCreaturesEtObjetsEtPerso();
+        System.out.println("Placement des créatures, objets et du personnage terminé.");
 
     }
 
@@ -434,6 +464,8 @@ public class World {
         }
         if (elements.get(0).equals("Longueur")) {
             longueur = Integer.parseInt(elements.get(1));
+            this.carte = new ElementDeJeu[this.largeur][this.longueur];
+            this.carte_nuage = new int[this.largeur][this.longueur];
             return true;
         }
         if (elements.get(0).equals("Joueur")) {
@@ -522,7 +554,7 @@ public class World {
             Loup loup = new Loup(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)),
                     Integer.parseInt(elements.get(4)),
                     Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
-                   pos, elements.get(1));
+                    pos, elements.get(1));
             creatures.add(loup);
             return true;
         }
@@ -531,7 +563,7 @@ public class World {
             Lapin lapin = new Lapin(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)),
                     Integer.parseInt(elements.get(4)),
                     Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
-                   pos, elements.get(1));
+                    pos, elements.get(1));
             creatures.add(lapin);
             return true;
         }
@@ -542,11 +574,10 @@ public class World {
     public void sauvegardePartie() {
         String date = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
-        sauvegardePartie("sauvegarde_" + date);
+        sauvegardePartie("sauvegarde_" + date+".txt");
     }
 
     public void sauvegardePartie(String destination) {
-        destination = destination + ".txt";
         // File f = new File(destination);
 
         BufferedWriter writer = null;

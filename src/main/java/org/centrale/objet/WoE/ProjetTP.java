@@ -25,12 +25,6 @@ public class ProjetTP {
             if(choix.equals("1")){
                 monde = new World(15,8);
 
-                monde.creerCreaturesAlea(10);
-                monde.creerObjetsAlea(10);
-                monde.creationJoueur();
-                monde.creerNuagesAlea(5);
-                monde.placerCreaturesEtObjetsEtPerso();
-
                 System.out.println("Le joueur démarre en ");
                 monde.getJoueur().getPerso().getPos().affiche();
                 monde.afficheWorld();
@@ -42,14 +36,35 @@ public class ProjetTP {
             else if(choix.equals("2")){
                 
                 while(true){
-                    System.out.println("Veuillez entrer le nom de la partie à charger :");
-                    String nomPartie = sc.next();
-                    try{
-                        monde = new World(nomPartie);
-                        break;
+                    System.out.println("Veuillez entrer le numéro de la partie à charger :");
+
+                    File dossier = new File(".");
+                    File[] fichiers = dossier.listFiles(
+                        (dir, nom) -> nom.endsWith(".txt")
+                    );
+
+                    for (int i = 0; i < fichiers.length; i++) {
+                        System.out.println((i + 1) + " - " + fichiers[i].getName());
                     }
-                    catch(Exception e){
-                        System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
+                    
+                    try{
+                        int choixFichier = Integer.parseInt(sc.next());
+                        if(choixFichier < 1 || choixFichier > fichiers.length){
+                            System.out.println("Choix invalide");
+                            continue;
+                        }
+                        String nomPartie = fichiers[choixFichier - 1].getName();
+                        try{
+                            monde = new World(nomPartie);
+                            break;
+                        }
+                        catch(Exception e){
+                            System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
+                            continue;
+                        }
+                    }
+                    catch(NumberFormatException e){
+                        System.out.println("Choix invalide");
                         continue;
                     }
                 }
@@ -61,11 +76,6 @@ public class ProjetTP {
         }
 
         
-
-        monde.sauvegardePartie("sauvegarde");
-        World monde2 = new World("sauvegarde.txt");
-        monde2.sauvegardePartie("sauvegarde2");
-        partieLancee = true;
         while(partieLancee){
             monde.tourDeJeu();
         }
