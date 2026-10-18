@@ -44,8 +44,9 @@ public class World {
         return carte[p.getX()][p.getY()] != null;
     }
 
-        /**
+    /**
      * Permet de créer un certain nombre de créatures aléatoires.
+     * 
      * @param nombre_perso le nombre de créatures à créer
      */
     public void creerCreaturesAlea(int nombre_perso) {
@@ -94,16 +95,16 @@ public class World {
         for (int i = 0; i < nombre_nuages; i++) {
             x = rd.nextInt(this.largeur);
             y = rd.nextInt(this.longueur);
-            lg= rd.nextInt(5) + 1;
-            while(lg>0 && x<largeur){
+            lg = rd.nextInt(5) + 1;
+            while (lg > 0 && x < largeur) {
                 carte_nuage[x][y] = 1;
                 x++;
                 lg--;
             }
-          
+
         }
     }
-    
+
     /**
      *
      * Création du joueur au début de la partie
@@ -189,29 +190,25 @@ public class World {
 
                 if (carte_nuage[x][y] == 1 && !actuel_nuage) {
                     actuel_nuage = true;
-                    System.out.print(ANSI_RESET+ANSI_RED);
+                    System.out.print(ANSI_RESET + ANSI_RED);
                 } else if (carte_nuage[x][y] == 0 && actuel_nuage) {
                     actuel_nuage = false;
-                    System.out.print(ANSI_RESET+ANSI_BLUE);
+                    System.out.print(ANSI_RESET + ANSI_BLUE);
                 }
 
-                if(pt.equals(joueurPos)){
-                    System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
-                }
-                else if (occupe(pt)) {
+                if (pt.equals(joueurPos)) {
+                    System.out.print(ANSI_RESET + ANSI_GREEN + " @ " + ANSI_RESET + ANSI_BLUE);
+                } else if (occupe(pt)) {
                     carte[x][y].aff_lettre();
-                } 
-                else {
-    System.out.print(" . ");
-}
+                } else {
+                    System.out.print(" . ");
+                }
 
             }
             System.out.println();
         }
         System.out.print(ANSI_RESET);
     }
-
-
 
     public void action_deplacement() {
         // appelé à lorsque le joueur choisit de se déplacer.
@@ -252,9 +249,10 @@ public class World {
                 Creature c = cibles.get(i);
                 System.out.print((i + 1) + ". ");
                 c.afficheDetails();
-                        
+
             }
-            System.out.println("Mettez comme chiffre la créature que vous souhaitez attaquer, ou 0 pour ne pas attaquer.");
+            System.out.println(
+                    "Mettez comme chiffre la créature que vous souhaitez attaquer, ou 0 pour ne pas attaquer.");
             int ennemi = Integer.parseInt(sc.next());
             if (ennemi == 0) {
                 System.out.println("Vous avez choisi de ne pas attaquer.");
@@ -285,20 +283,33 @@ public class World {
         System.out.println("# # # # # # # # # # # # #" + ANSI_RESET);
     }
 
-    public void action_inventaire(){
+    public void action_inventaire() {
+        int choix = -1;
         joueur.getInventaire().affiche();
-        System.out.println("Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
-        int choix = Integer.parseInt(sc.next());
-        if (choix == 0){
-            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+        System.out.println(
+                "Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
+        while (true){
+                try {
+            choix = Integer.parseInt(sc.next());
+        } catch (NumberFormatException e) {
+            System.out.println("Veuillez entrer un nombre.");
         }
-        else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
+        if (choix == 0) {
+            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+            break;
+        } else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
             Inventorable objet = joueur.getInventaire().getObjets().get(choix - 1);
             objet.utiliser(joueur.getPerso());
+            if (objet.getDurabilite() == 0) {
+                joueur.getInventaire().getObjets().remove(objet);
+            }
+            break;
         } else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
     }
+}
+
 
     /**
      *
@@ -306,7 +317,7 @@ public class World {
      */
 
     public void tourDeJeu() {
-        System.out.println(ANSI_GREEN+"Nouveau tour de jeu !");
+        System.out.println(ANSI_GREEN + "Nouveau tour de jeu !");
 
         System.out.println("Que voulez-vous faire ?");
         System.out.println(" - Se battre (b)");
@@ -316,7 +327,7 @@ public class World {
         System.out.println(" - Utiliser un objet de l'inventaire (u)");
         System.out.println(" - Afficher la légende de la carte (l)");
         System.out.println(" - Sauvegarder (s)");
-        System.out.println(" - Quitter (q)"+ANSI_RESET);
+        System.out.println(" - Quitter (q)" + ANSI_RESET);
 
         String choix = sc.next();
         screenReset();
@@ -332,20 +343,19 @@ public class World {
         } else if (choix.equals("b")) {
             action_attaquer();
         } else if (choix.equals("l")) {
-            afficheLegende();   
+            afficheLegende();
         } else if (choix.equals("q")) {
             System.out.println("A bientôt !");
             System.exit(0);
         } else if (choix.equals("u")) {
             action_inventaire();
-        }
-        else {
+        } else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
 
     }
 
-    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage,  boolean joueurPrincipal) {
+    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage, boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
         Point2D newPos = new Point2D(x, y);
@@ -354,9 +364,9 @@ public class World {
             return false;
         }
 
-        //ramasser un objet si le joueur se déplace sur une case contenant un objet
-        if(joueurPrincipal && carte[x][y] instanceof Inventorable){ 
-            joueur.getInventaire().ajouterObjet( (Inventorable) carte[x][y]);
+        // ramasser un objet si le joueur se déplace sur une case contenant un objet
+        if (joueurPrincipal && carte[x][y] instanceof Inventorable) {
+            joueur.getInventaire().ajouterObjet((Inventorable) carte[x][y]);
             carte[x][y] = null;
             System.out.println(ANSI_GREEN + "Vous avez ramassé un objet !" + ANSI_RESET);
         }
@@ -384,66 +394,71 @@ public class World {
     public void chargementPartie(String source) {
         System.out.println("Chargement de la partie...");
 
-        try{
+        try {
             String ligne;
             BufferedReader reader = new BufferedReader(new FileReader(source));
             ligne = reader.readLine();
-            while(ligne != null) {
+            while (ligne != null) {
                 analyseLigneLue(ligne);
                 ligne = reader.readLine();
             }
             reader.close();
-        } 
-        catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
         }
-        
+
     }
 
     private boolean analyseLigneLue(String ligne) {
-        
-        //découpage de la ligne
+
+        // découpage de la ligne
         StringTokenizer st = new StringTokenizer(ligne, " ");
         List<String> elements = new ArrayList<>();
-        while(st.hasMoreTokens()) {
+        while (st.hasMoreTokens()) {
             elements.add(st.nextToken());
         }
 
-        //analyse de la ligne
-        if(elements.get(0).equals("Largeur")){
+        // analyse de la ligne
+        if (elements.get(0).equals("Largeur")) {
             largeur = Integer.parseInt(elements.get(1));
             return true;
         }
-        if(elements.get(0).equals("Longueur")){
+        if (elements.get(0).equals("Longueur")) {
             longueur = Integer.parseInt(elements.get(1));
             return true;
         }
-        if(elements.get(0).equals("Joueur")){
-           /*  Personnage perso = new Personnage(elements.get(2), Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)), Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)), Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)), new Point2D(Integer.parseInt(elements.get(9)), Integer.parseInt(elements.get(10))));
-            joueur = new Joueur(elements.get(1), elements.get(2));
-            joueur.setPerso(perso);
-            return true;*/
+        if (elements.get(0).equals("Joueur")) {
+            /*
+             * Personnage perso = new Personnage(elements.get(2),
+             * Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)),
+             * Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+             * Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)), new
+             * Point2D(Integer.parseInt(elements.get(9)),
+             * Integer.parseInt(elements.get(10))));
+             * joueur = new Joueur(elements.get(1), elements.get(2));
+             * joueur.setPerso(perso);
+             * return true;
+             */
         }
-        if(elements.get(0).equals("Inventaire")){
-            
+        if (elements.get(0).equals("Inventaire")) {
+
             return true;
         }
-        if(elements.get(0).equals("Epee") || elements.get(0).equals("PotionSoin") || elements.get(0).equals("NuageToxique")){
-            //TODO : créer l'objet et le placer sur la carte
+        if (elements.get(0).equals("Epee") || elements.get(0).equals("PotionSoin")
+                || elements.get(0).equals("NuageToxique")) {
+            // TODO : créer l'objet et le placer sur la carte
             return true;
         }
-        
-        if(elements.get(0).equals("Guerrier") || elements.get(0).equals("Archer") || elements.get(0).equals("Paysan") || elements.get(0).equals("Loup") || elements.get(0).equals("Lapin")){
-            //TODO : créer la créature et la placer sur la carte
+
+        if (elements.get(0).equals("Guerrier") || elements.get(0).equals("Archer") || elements.get(0).equals("Paysan")
+                || elements.get(0).equals("Loup") || elements.get(0).equals("Lapin")) {
+            // TODO : créer la créature et la placer sur la carte
             return true;
         }
         return false;
     }
 
-
-
-
-    public void sauvegardePartie() {  
+    public void sauvegardePartie() {
         String date = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
         sauvegardePartie("sauvegarde_" + date);
@@ -451,56 +466,53 @@ public class World {
 
     public void sauvegardePartie(String destination) {
         destination = destination + ".txt";
-        //File f = new File(destination);
+        // File f = new File(destination);
 
         BufferedWriter writer = null;
-        try{
+        try {
             writer = new BufferedWriter(new FileWriter(destination));
-            
+
             writer.write("Largeur " + largeur);
             writer.newLine();
             writer.write("Longueur " + longueur);
             writer.newLine();
-            
-            for(Creature c : creatures){
+
+            for (Creature c : creatures) {
                 writer.write(c.info_svg());
                 writer.newLine();
             }
-            for(Objet o : objets){
+            for (Objet o : objets) {
                 writer.write(o.info_svg());
                 writer.newLine();
             }
             writer.write(joueur.info_svg());
             writer.newLine();
-            for(Objet o : joueur.getInventaire().getObjets()){
+            for (Objet o : joueur.getInventaire().getObjets()) {
                 writer.write(o.info_svg());
                 writer.newLine();
             }
 
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde de la partie : " + e.getMessage());
-        }
-        finally{
-            try{
-                if(writer != null){
+        } finally {
+            try {
+                if (writer != null) {
                     writer.close();
                 }
-            }
-            catch(IOException e){
+            } catch (IOException e) {
                 System.out.println("Erreur lors de la fermeture du fichier : " + e.getMessage());
             }
         }
 
-        System.out.println("Sauvegarde bien effecutée sous le nom " + destination   );
-            
+        System.out.println("Sauvegarde bien effecutée sous le nom " + destination);
+
     }
 
     public Joueur getJoueur() {
         return joueur;
     }
 
-    public void screenReset(){
+    public void screenReset() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
