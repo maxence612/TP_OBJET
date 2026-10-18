@@ -352,9 +352,18 @@ public class World {
         } else {
             System.out.println("Choix invalide, veuillez réessayer.");
         }
-
+        tourdeJeu_random();
     }
 
+    public void tourdeJeu_random(){
+        Random rd = new Random();
+        for (Creature c : creatures){
+           int x = rd.nextInt(10);
+           Point2D decalage = new Point2D(x);
+           deplacerElementDeJeu(c, decalage, false);
+        }
+
+    }
     public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage, boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
