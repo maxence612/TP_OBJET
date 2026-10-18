@@ -37,8 +37,18 @@ public class Epee extends Inventorable{
     }
 
     public Epee() {
-        super();
-        this.degat=0;
+        this(0);
+    }
+
+    public Epee(Integer degat, Integer durabilite, boolean estDansInventaire) {
+        super(durabilite, estDansInventaire);
+        this.degat = degat;
+    }
+
+    public Epee(Integer degat, Integer durabilite, Point2D pos) {
+        super(durabilite, false);
+        this.degat = degat;
+        this.setPos(pos);
     }
 
     public void aff_lettre(){

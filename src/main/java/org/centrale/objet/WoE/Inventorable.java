@@ -8,6 +8,15 @@ public abstract class Inventorable extends Objet  {
 
     public abstract void utiliser(Creature c);
 
+    public Inventorable(Integer durabilite, boolean estDansInventaire) {
+        super(durabilite);
+        this.estDansInventaire = estDansInventaire;
+    }
+
+    public Inventorable() {
+        super();
+    }
+
     public boolean getEstDansInventaire() {
         return estDansInventaire;
     }

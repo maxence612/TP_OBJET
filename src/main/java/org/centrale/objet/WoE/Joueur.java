@@ -52,8 +52,9 @@ public class Joueur implements Combattant {
      * Constructeur utilisé dans le cas d'une partie chargée
      * 
      */
-    public Joueur(Personnage perso){
+    public Joueur(Personnage perso, int tailleInventaire){
         this.perso = perso;
+        this.inventaire = new Inventaire(tailleInventaire);
     }
 
 

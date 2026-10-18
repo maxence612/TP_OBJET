@@ -15,9 +15,19 @@ public class PotionSoin extends Inventorable{
         this.pvSoigne = pVsoigne;
     }
 
+    public PotionSoin(Integer pVsoigne, Integer durabilite, boolean estDansInventaire) {
+        super(durabilite, estDansInventaire);
+        this.pvSoigne = pVsoigne;
+    }
+
+    public PotionSoin(Integer pVsoigne, Integer durabilite, Point2D pos) {
+        super(durabilite, false);
+        this.pvSoigne = pVsoigne;
+        this.setPos(pos);
+    }
+
     public PotionSoin() {
-        super();
-        this.pvSoigne=40;
+        this(40);
     }
 
     public Integer getPvSoigne() {
