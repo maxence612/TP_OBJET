@@ -196,10 +196,9 @@ public class World {
                     System.out.print(ANSI_RESET + ANSI_BLUE);
                 }
 
-                if(pt.equals(joueurPos)){
-                    System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
-                }
-                else if (occupe(pt)) {
+                if (pt.equals(joueurPos)) {
+                    System.out.print(ANSI_RESET + ANSI_GREEN + " @ " + ANSI_RESET + ANSI_BLUE);
+                } else if (occupe(pt)) {
                     carte[x][y].aff_lettre();
                 } else {
                     System.out.print(" . ");
@@ -284,14 +283,21 @@ public class World {
         System.out.println("# # # # # # # # # # # # #" + ANSI_RESET);
     }
 
-    public void action_inventaire(){
+    public void action_inventaire() {
+        int choix = -1;
         joueur.getInventaire().affiche();
-        System.out.println("Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
-        int choix = Integer.parseInt(sc.next());
-        if (choix == 0){
-            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+        System.out.println(
+                "Quel objet voulez vous utiliser ? (mettez le numéro de l'objet, ou 0 pour ne pas utiliser d'objet)");
+        while (true){
+                try {
+            choix = Integer.parseInt(sc.next());
+        } catch (NumberFormatException e) {
+            System.out.println("Veuillez entrer un nombre.");
         }
-        else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
+        if (choix == 0) {
+            System.out.println("Vous avez choisi de ne pas utiliser d'objet.");
+            break;
+        } else if (choix > 0 && choix <= joueur.getInventaire().getObjets().size()) {
             Inventorable objet = joueur.getInventaire().getObjets().get(choix - 1);
             objet.utiliser(joueur.getPerso());
             if (objet.getDurabilite() == 0) {
@@ -349,7 +355,16 @@ public class World {
         tourdeJeu_random();
     }
 
-    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage,  boolean joueurPrincipal) {
+    public void tourdeJeu_random(){
+        Random rd = new Random();
+        for (Creature c : creatures){
+           int x = rd.nextInt(10);
+           Point2D decalage = new Point2D(x);
+           deplacerElementDeJeu(c, decalage, false);
+        }
+
+    }
+    public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage, boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
         Point2D newPos = new Point2D(x, y);
@@ -358,9 +373,10 @@ public class World {
             return false;
         }
 
-        //ramasser un objet si le joueur se déplace sur une case contenant un objet
-        if(joueurPrincipal && carte[x][y] instanceof Inventorable){ 
-            joueur.getInventaire().ajouterObjet( (Inventorable) carte[x][y]);
+        // ramasser un objet si le joueur se déplace sur une case contenant un objet
+        if (joueurPrincipal && carte[x][y] instanceof Inventorable) {
+            ((Inventorable) carte[x][y]).setEstDansInventaire(true);
+            joueur.getInventaire().ajouterObjet((Inventorable) carte[x][y]);
             carte[x][y] = null;
             System.out.println(ANSI_GREEN + "Vous avez ramassé un objet !" + ANSI_RESET);
         }
@@ -400,7 +416,9 @@ public class World {
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement de la partie : " + e.getMessage());
         }
-        
+
+        //TODO Placer les créatures et les objets sur la carte
+
     }
 
     private boolean analyseLigneLue(String ligne) {
@@ -421,23 +439,62 @@ public class World {
             longueur = Integer.parseInt(elements.get(1));
             return true;
         }
-        if(elements.get(0).equals("Joueur")){
-           /*  Personnage perso = new Personnage(elements.get(2), Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)), Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)), Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)), new Point2D(Integer.parseInt(elements.get(9)), Integer.parseInt(elements.get(10))));
-            joueur = new Joueur(elements.get(1), elements.get(2));
-            joueur.setPerso(perso);
-            return true;*/
-        }
-        if(elements.get(0).equals("Inventaire")){
-            
+        if (elements.get(0).equals("Joueur")) {
+            Personnage perso;
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(10)), Integer.parseInt(elements.get(11)));
+            String typePerso= elements.get(2);
+            if (typePerso.equalsIgnoreCase("Guerrier")){
+                perso = new Guerrier( elements.get(3), Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                    Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
+                    Integer.parseInt(elements.get(9)), pos);         
+            }
+            else { // typePerso.equalsIgnoreCase("Archer")
+                perso = new Archer( elements.get(3), Integer.parseInt(elements.get(4)),
+                    Integer.parseInt(elements.get(5)), Integer.parseInt(elements.get(6)),
+                    Integer.parseInt(elements.get(7)), Integer.parseInt(elements.get(8)),
+                    Integer.parseInt(elements.get(9)), pos, Integer.parseInt(elements.get(12)));  
+            };
+
+            joueur = new Joueur(perso, Integer.parseInt(elements.get(1)));
             return true;
         }
-        if(elements.get(0).equals("Epee") || elements.get(0).equals("PotionSoin") || elements.get(0).equals("NuageToxique")){
-            //TODO : créer l'objet et le placer sur la carte
+
+        if (elements.get(0).equals("Inventaire")) {
+            if(joueur==null){
+                System.out.println("Erreur : le joueur n'a pas été créé avant l'inventaire.");
+                return false;
+            }
+            else if(elements.get(1).equals("PotionSoin")){
+                PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)), true);
+                joueur.getInventaire().ajouterObjet(potion);
+            }
+            else if(elements.get(1).equals("Epee")){
+                Epee epee = new Epee(Integer.parseInt(elements.get(2)), Integer.parseInt(elements.get(3)), true);
+                joueur.getInventaire().ajouterObjet(epee);
+            }
+            else{
+                System.out.println("Erreur : type d'objet inconnu dans l'inventaire.");
+                return false;
+            }
             return true;
         }
-        
-        if(elements.get(0).equals("Guerrier") || elements.get(0).equals("Archer") || elements.get(0).equals("Paysan") || elements.get(0).equals("Loup") || elements.get(0).equals("Lapin")){
-            //TODO : créer la créature et la placer sur la carte
+
+        if (elements.get(0).equals("Epee")){
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)));
+            Epee epee = new Epee(Integer.parseInt(elements.get(1)), Integer.parseInt(elements.get(2)), pos);
+            objets.add(epee);
+            return true;
+        }
+        if (elements.get(0).equals("PotionSoin")){
+            Point2D pos = new Point2D(Integer.parseInt(elements.get(3)), Integer.parseInt(elements.get(4)));
+            PotionSoin potion = new PotionSoin(Integer.parseInt(elements.get(1)), Integer.parseInt(elements.get(2)), pos);
+            objets.add(potion);
+            return true;
+        }
+
+        if (elements.get(0).equals("Guerrier")) {
+
             return true;
         }
         
