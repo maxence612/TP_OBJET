@@ -127,7 +127,6 @@ public class World {
         }
 
         joueur = new Joueur(nom, classe);
-        creatures.add(joueur.getPerso());
     }
 
     /**
@@ -160,6 +159,14 @@ public class World {
             carte[x][y] = objets.get(i);
         }
 
+        while (occupe(pt)) {
+            x = genRand.nextInt(this.largeur);
+            y = genRand.nextInt(this.longueur);
+            pt = new Point2D(x, y);
+        }
+        joueur.getPerso().setPos(pt);
+        carte[x][y] = joueur.getPerso();
+
     }
 
     /**
@@ -170,9 +177,11 @@ public class World {
     public void afficheWorld() {
         Point2D pt;
         boolean actuel_nuage = false;
+        Point2D joueurPos = joueur.getPerso().getPos();
         System.out.print(ANSI_BLUE);
-        System.out.println("Le joueur est en ");
-        joueur.getPerso().getPos().affiche();
+        System.out.print("Le joueur est en ");
+        joueurPos.affiche();
+
         for (int y = 0; y < longueur; y++) {
             for (int x = 0; x < largeur; x++) {
                 pt = new Point2D(x, y);
@@ -185,13 +194,11 @@ public class World {
                     System.out.print(ANSI_RESET+ANSI_BLUE);
                 }
 
-                if (occupe(pt)) {
-                    if (carte[x][y] == joueur.getPerso()) {
-                        System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
-                    } 
-                    else {
-                        carte[x][y].aff_lettre();
-                        }
+                if(pt == joueurPos){
+                    System.out.print(ANSI_GREEN + " @ " + ANSI_RESET);
+                }
+                else if (occupe(pt)) {
+                    carte[x][y].aff_lettre();
                 } 
                 else {
     System.out.print(" . ");
@@ -397,7 +404,7 @@ public class World {
             writer.newLine();
             writer.write("Longueur: " + longueur);
             writer.newLine();
-            writer.write("Joueur");
+            writer.write(joueur.info_svg());
             for(Creature c : creatures){
                 writer.write(c.info_svg());
                 writer.newLine();
@@ -407,7 +414,7 @@ public class World {
                 writer.newLine();
             }
             for(Objet o : joueur.getInventaire().getObjets()){
-                writer.write("Inventaire " + o.info_svg());
+                writer.write(o.info_svg());
                 writer.newLine();
             }
 
