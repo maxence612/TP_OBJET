@@ -267,11 +267,17 @@ public class World {
                 joueur.combattre(cible);
                 System.out.print("Vous avez attaqué ");
                 System.out.println(cible.getNom());
+            if (cible.getPtVie() <= 0) {
+            System.out.println(cible.getNom() + " est mort");
+            creatures.remove(cible);
+            carte[cible.getPos().getX()][cible.getPos().getY()] = null;
+            }
             } else {
                 System.out.println("Choix invalide, veuillez réessayer.");
 
             }
         }
+
     }
 
     public void afficheLegende() {
