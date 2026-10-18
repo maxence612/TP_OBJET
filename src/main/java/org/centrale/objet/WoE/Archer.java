@@ -131,9 +131,4 @@ public class Archer extends Personnage implements Combattant {
     public String info_svg(){
         return("Archer " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar() + " " + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " " + this.getPos().getX() + " " + this.getPos().getY() + " " + this.nbFleches);
     }
-
-    public String info_svg() {
-        return ("");
-    }
-
 }
