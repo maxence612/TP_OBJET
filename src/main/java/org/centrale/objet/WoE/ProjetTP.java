@@ -63,7 +63,7 @@ public class ProjetTP {
         
 
         monde.sauvegardePartie();
-        partieLancee = false;
+        partieLancee = true;
         while(partieLancee){
             monde.tourDeJeu();
         }
