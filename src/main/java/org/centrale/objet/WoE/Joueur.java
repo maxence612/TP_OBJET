@@ -1,16 +1,21 @@
 package org.centrale.objet.WoE;
 import java.util.Random;
 
-
+/**
+ * Représente le joueur, son personnage et son inventaire.
+ */
 public class Joueur implements Combattant {
 
+    /** Personnage contrôlé par le joueur. */
     private Personnage perso;
+    /** Objets transportés par le joueur. */
     private Inventaire inventaire;
 
-
     /**
-     * Constructeur utilisé dans le cas d'une nouvelle partie
-     * 
+     * Crée un joueur pour une nouvelle partie et génère ses caractéristiques.
+     *
+     * @param name nom attribué au personnage
+     * @param typePerso classe du personnage (« Guerrier » ou « Archer »)
      */
     public Joueur(String name, String typePerso){
          Random rd = new Random();
@@ -49,8 +54,10 @@ public class Joueur implements Combattant {
     }
 
     /**
-     * Constructeur utilisé dans le cas d'une partie chargée
-     * 
+     * Crée un joueur à partir d'un personnage déjà initialisé.
+     *
+     * @param perso personnage chargé
+     * @param tailleInventaire capacité maximale de son inventaire
      */
     public Joueur(Personnage perso, int tailleInventaire){
         this.perso = perso;
@@ -59,22 +66,36 @@ public class Joueur implements Combattant {
 
 
     /**
-     * Permet de faire avancer le joueur dans une direction donnée
-     * @param direction la direction dans laquelle le joueur doit avancer
+     * Retourne le personnage contrôlé par le joueur.
+     *
+     * @return personnage du joueur
      */
-
-
     public Personnage getPerso(){
         return this.perso;
     }
+    /**
+     * Remplace le personnage contrôlé par le joueur.
+     *
+     * @param perso nouveau personnage
+     */
     public void setPerso(Personnage perso){
         this.perso = perso;
     }
 
+    /**
+     * Retourne l'inventaire du joueur.
+     *
+     * @return inventaire du joueur
+     */
     public Inventaire getInventaire(){
         return this.inventaire;
     }
 
+    /**
+     * Transmet l'attaque au personnage du joueur.
+     *
+     * @param c créature visée
+     */
     public void combattre(Creature c) {
         if (this.getPerso() instanceof Guerrier) {
             ((Guerrier) this.getPerso()).combattre(c);
@@ -83,8 +104,22 @@ public class Joueur implements Combattant {
         }
     
     }
-
+    /**
+     * Retourne les données du joueur et de son personnage au format de sauvegarde.
+     *
+     * @return chaîne contenant la capacité d'inventaire et l'état du personnage
+     */
     public String info_svg() {
         return("Joueur " + this.inventaire.getCapaciteMax()+ " " + perso.info_svg() );
     }
+
+     /**
+     * Retourne les données du joueur et de son personnage au format de sauvegarde.
+     *
+     * @return chaîne contenant la capacité d'inventaire et l'état du personnage
+     */
+    public void estMort() {
+        System.out.println("Vous êtes mort, fin de partie ...");
+        System.exit(0);
+}
 }

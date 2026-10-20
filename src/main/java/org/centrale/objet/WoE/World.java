@@ -8,31 +8,56 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
+ * Gère la carte, les entités, les actions de jeu et les sauvegardes d'une partie.
  *
  * @author Maxence SCHWERER et Corentin GODARD
  */
 public class World {
+    /** Séquence ANSI de réinitialisation des couleurs du terminal. */
     private static final String ANSI_RESET = "\u001B[0m";
+    /** Séquence ANSI pour le rouge. */
     private static final String ANSI_RED = "\u001B[31m";
+    /** Séquence ANSI pour le vert. */
     private static final String ANSI_GREEN = "\u001B[32m";
+    /** Séquence ANSI pour le jaune. */
     private static final String ANSI_YELLOW = "\u001B[33m";
+    /** Séquence ANSI pour le bleu. */
     private static final String ANSI_BLUE = "\u001B[34m";
 
+    /** Nombre de cases sur l'axe horizontal. */
     private int largeur;
+    /** Nombre de cases sur l'axe vertical. */
     private int longueur;
+    /** Cases de la carte occupées par les personnages et objets. */
     private ElementDeJeu[][] carte;
+    /** Nuages toxiques présents sur chaque case. */
     private NuageToxique[][] carte_nuage;
+    /** Créatures non-joueurs de la partie. */
     private List<Creature> creatures = new ArrayList<>();
+    /** Objets présents sur la carte. */
     private List<Objet> objets = new ArrayList<>();
+    /** Joueur de la partie. */
     public Joueur joueur;
+    /** Classes de personnage proposées lors de la création du joueur. */
     public String[] classes = { "Guerrier", "Archer" };
+    /** Lecteur des entrées de jeu dans la console. */
     private Scanner sc = new Scanner(System.in);
 
+    /**
+     * Charge une partie à partir du fichier indiqué.
+     *
+     * @param nomPartie chemin du fichier de sauvegarde
+     */
     public World(String nomPartie) {
         chargementPartie(nomPartie);
 
     }
-
+    /**
+     * Crée un nouveau monde de dimensions indiquées et initialise son contenu.
+     *
+     * @param largeur largeur de la carte en cases
+     * @param longueur longueur de la carte en cases
+     */
     public World(int largeur, int longueur) {
         this.largeur = largeur;
         this.longueur = longueur;
@@ -44,15 +69,20 @@ public class World {
         creerNuagesAlea(5);
         placerElementsAleatoirement();
     }
-
+    /**
+     * Indique si une case de la carte est occupée.
+     *
+     * @param p position à examiner
+     * @return {@code true} si la case contient un élément de jeu
+     */
     private boolean occupe(Point2D p) {
         return carte[p.getX()][p.getY()] != null;
     }
 
     /**
-     * Permet de créer un certain nombre de créatures aléatoires.
-     * 
-     * @param nombre_perso le nombre de créatures à créer
+     * Ajoute des créatures choisies aléatoirement à la partie.
+     *
+     * @param nombre_perso nombre de créatures à créer
      */
     public void creerCreaturesAlea(int nombre_perso) {
         Random rd = new Random();
@@ -77,7 +107,11 @@ public class World {
         }
 
     }
-
+    /**
+     * Ajoute des objets choisis aléatoirement à la partie.
+     *
+     * @param nombre_objets nombre d'objets à créer
+     */
     public void creerObjetsAlea(int nombre_objets) {
         Random rd = new Random();
         int nombre_race;
@@ -93,7 +127,11 @@ public class World {
         }
 
     }
-
+    /**
+     * Crée des nuages toxiques aléatoires et les place sur la carte.
+     *
+     * @param nombre_nuages nombre de nuages à créer
+     */
     public void creerNuagesAlea(int nombre_nuages) {
         Random rd = new Random();
         int x, y, lg;
@@ -113,8 +151,7 @@ public class World {
     }
 
     /**
-     *
-     * Création du joueur au début de la partie
+     * Demande en console le nom et la classe du joueur, puis le crée.
      */
     public void creationJoueur() {
         System.out.println("Entrez le nom du joueur :");
@@ -139,8 +176,7 @@ public class World {
     }
 
     /**
-     *
-     * Sert à placer les créatures et les objets générés précédement sur la carte
+     * Place aléatoirement les créatures, objets et personnage sur des cases libres.
      */
     public void placerElementsAleatoirement() {
 
@@ -178,7 +214,9 @@ public class World {
         carte[x][y] = joueur.getPerso();
 
     }
-
+    /**
+     * Place sur la carte les entités dont les positions proviennent d'une sauvegarde.
+     */
     public void placerElementsCharges() {
         for (Creature c : creatures) {
             Point2D p = c.getPos();
@@ -197,9 +235,7 @@ public class World {
 
 
     /**
-     *
-     * Permet d'afficher le monde dans la console, en affichant les lettres
-     * représentant les créatures et les objets sur la carte.
+     * Affiche la carte dans la console avec les symboles des entités et les nuages.
      */
     public void afficheWorld() {
         Point2D pt;
@@ -234,7 +270,9 @@ public class World {
         }
         System.out.print(ANSI_RESET);
     }
-
+    /**
+     * Demande une direction au joueur et tente de déplacer son personnage.
+     */
     public void action_deplacement() {
         // appelé à lorsque le joueur choisit de se déplacer.
         System.out.println("Ou voulez vous déplacer ? ");
@@ -250,7 +288,9 @@ public class World {
             joueur.getPerso().getPos().affiche();
         }
     }
-
+    /**
+     * Propose les créatures à portée et traite le choix de la cible du joueur.
+     */
     public void action_attaquer() {
         // appelé à lorsque le joueur choisit de combattre.
         List<Creature> cibles = new ArrayList<>();
@@ -298,7 +338,9 @@ public class World {
         }
 
     }
-
+    /**
+     * Affiche la signification des symboles utilisés sur la carte.
+     */
     public void afficheLegende() {
         System.out.println(ANSI_YELLOW + "# # # # # # # # # # # # #");
         System.out.println("Légende :");
@@ -313,7 +355,9 @@ public class World {
         System.out.println("H : Potion de soin");
         System.out.println("# # # # # # # # # # # # #" + ANSI_RESET);
     }
-
+    /**
+     * Affiche l'inventaire et permet au joueur d'utiliser un de ses objets.
+     */
     public void action_inventaire() {
         int choix = -1;
         joueur.getInventaire().affiche();
@@ -340,7 +384,9 @@ public class World {
             }
         }
     }
-
+    /**
+     * Demande un nom de fichier puis sauvegarde la partie.
+     */
     public void action_sauvegarder() {
         System.out.print("Entrez le nom du fichier de sauvegarde ou '.' pour utiliser l'horodatage: ");
         String nomFichier = sc.next();
@@ -363,8 +409,7 @@ public class World {
     }
 
     /**
-     *
-     * Tour de jeu du joueur
+     * Affiche les choix disponibles et exécute une action pour le tour courant.
      */
 
     public void tourDeJeu() {
@@ -402,7 +447,9 @@ public class World {
         }
         tourdeJeu_random();
     }
-
+    /**
+     * Effectue le déplacement aléatoire de chaque créature non-joueur.
+     */
     public void tourdeJeu_random() {
         Random rd = new Random();
         for (Creature c : creatures) {
@@ -412,7 +459,15 @@ public class World {
         }
 
     }
-
+    /**
+     * Tente de déplacer un élément et, pour le joueur, ramasse un objet rencontré.
+     *
+     * @param element élément à déplacer
+     * @param decalage décalage à appliquer à sa position
+     * @param joueurPrincipal {@code true} si le déplacement est celui du joueur
+     * @return {@code true} si le déplacement a été effectué, {@code false} si la
+     *         destination est hors carte ou occupée
+     */
     public boolean deplacerElementDeJeu(ElementDeJeu element, Point2D decalage, boolean joueurPrincipal) {
         int x = decalage.getX() + element.getPos().getX();
         int y = decalage.getY() + element.getPos().getY();
@@ -446,10 +501,10 @@ public class World {
     }
 
     /**
-     * Retourne la liste des créatures situées à une distance < 1 du joueur.
-     * (le joueur lui-même est exclu)
+     * Lit le fichier de sauvegarde et place les éléments chargés sur la carte.
+     *
+     * @param source chemin du fichier à lire
      */
-
     public void chargementPartie(String source) {
         System.out.println("Chargement de la partie...");
         System.out.println("Fichier source : " + source);
@@ -472,7 +527,12 @@ public class World {
         System.out.println("Placement des créatures, objets et du personnage terminé.");
 
     }
-
+    /**
+     * Interprète une ligne de sauvegarde et met à jour l'état du monde.
+     *
+     * @param ligne ligne à analyser
+     * @return {@code true} si la ligne correspond à un type reconnu
+     */
     private boolean analyseLigneLue(String ligne) {
 
         // découpage de la ligne
@@ -604,13 +664,19 @@ public class World {
 
         return false;
     }
-
+    /**
+     * Enregistre la partie dans un fichier dont le nom est horodaté.
+     */
     public void sauvegardePartie() {
         String date = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
         sauvegardePartie("sauvegarde_" + date+".txt");
     }
-
+    /**
+     * Enregistre les dimensions, les entités et l'inventaire dans le fichier indiqué.
+     *
+     * @param destination chemin du fichier de destination
+     */
     public void sauvegardePartie(String destination) {
         // File f = new File(destination);
 
@@ -663,11 +729,17 @@ public class World {
         System.out.println("Sauvegarde bien effecutée sous le nom " + destination);
 
     }
-
+    /**
+     * Retourne le joueur de la partie.
+     *
+     * @return joueur courant
+     */
     public Joueur getJoueur() {
         return joueur;
     }
-
+    /**
+     * Efface le contenu du terminal à l'aide des séquences de contrôle ANSI.
+     */
     public void screenReset() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

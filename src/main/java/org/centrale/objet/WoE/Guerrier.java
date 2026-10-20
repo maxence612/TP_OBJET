@@ -7,20 +7,22 @@ package org.centrale.objet.WoE;
 import java.util.Random;
 
 /**
+ * Guerrier combattant au corps à corps.
  *
  * @author Maxence Schwerer et Corentin Godard
  */
 public class Guerrier extends Personnage implements Combattant {
     /**
+     * Crée un guerrier avec les caractéristiques indiquées.
      *
-     * @param nom        nom initial
-     * @param ptVie      points de vie initiaux
-     * @param degAtt     nombre de dégat initiaux infligé par attaque
-     * @param ptPar      nombre points parade initiaux
-     * @param pageAtt    pourcentage initial de chance que l'attaque aboutisse
-     * @param pagePar    pourcentage initial de chance que la parade aboutisse
-     * @param distAttMax distance initale à laquelle il peut se battre
-     * @param pos        position initale
+     * @param nom nom initial
+     * @param ptVie points de vie initiaux
+     * @param degAtt dégâts infligés par attaque
+     * @param ptPar valeur de parade
+     * @param pageAtt pourcentage de réussite d'une attaque
+     * @param pagePar pourcentage de réussite d'une parade
+     * @param distAttMax portée maximale d'attaque
+     * @param pos position initiale
      */
     public Guerrier(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax,
             Point2D pos) {
@@ -28,17 +30,26 @@ public class Guerrier extends Personnage implements Combattant {
     }
 
     /**
+     * Crée une copie du guerrier indiqué.
      *
-     * @param g guerrier à dupliquer
+     * @param g guerrier à copier
      */
     public Guerrier(Guerrier g) {
         super(g);
     }
 
+    /**
+     * Crée un guerrier avec les caractéristiques par défaut.
+     */
     public Guerrier() {
         super();
     }
 
+    /**
+     * Attaque une créature adjacente en tenant compte de ses chances de parade.
+     *
+     * @param C créature visée
+     */
     public void combattre(Creature C) {
         // Combat Rapproché
         if (this.getPos().distance(C.getPos()) == 1) {
@@ -67,18 +78,25 @@ public class Guerrier extends Personnage implements Combattant {
     }
 
     /**
-     * Affiche la lettre représentant le guerrier sur la carte.
-     *
+     * Affiche le symbole du guerrier sur la carte.
      */
     public void aff_lettre() {
         System.out.print(" G ");
     }
 
+    /**
+     * Affiche les informations principales du guerrier.
+     */
     public void afficheDetails() {
         System.out.println("Guerrier : " + this.getNom() + ", Points de vie : " + this.getPtVie() + ", Position : ("
                 + this.getPos().getX() + ", " + this.getPos().getY() + ")");
     }
 
+    /**
+     * Retourne les données du guerrier au format de sauvegarde du jeu.
+     *
+     * @return chaîne contenant le type et l'état du guerrier
+     */
     public String info_svg() {
         return ("Guerrier " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar()
                 + " " + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " "

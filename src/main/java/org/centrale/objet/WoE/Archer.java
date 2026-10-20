@@ -11,22 +11,21 @@ import java.util.Random;
  * @author Corentin Godard et Maxence Schwerer
  */
 public class Archer extends Personnage implements Combattant {
-    /**
-     * Nombre de flèches restantes à l'archer
-     */
+    /** Nombre de flèches restantes. */
     private int nbFleches;
 
     /**
+     * Crée un archer avec les caractéristiques indiquées.
      *
-     * @param nom        nom initial
-     * @param ptVie      points de vie initiaux
-     * @param degAtt     nombre de dégat initiaux infligé par attaque
-     * @param ptPar      nombre points parade initiaux
-     * @param pageAtt    pourcentage initial de chance que l'attaque aboutisse
-     * @param pagePar    pourcentage initial de chance que la parade aboutisse
-     * @param distAttMax distance initale à laquelle il peut se battre
-     * @param pos        position initale
-     * @param nbFleches  nombre initial de flèches
+     * @param nom nom initial
+     * @param ptVie points de vie initiaux
+     * @param degAtt dégâts infligés par attaque
+     * @param ptPar valeur de parade
+     * @param pageAtt pourcentage de réussite d'une attaque
+     * @param pagePar pourcentage de réussite d'une parade
+     * @param distAttMax portée maximale d'attaque
+     * @param pos position initiale
+     * @param nbFleches nombre initial de flèches
      */
     public Archer(String nom, int ptVie, int degAtt, int ptPar, int pageAtt, int pagePar, int distAttMax, Point2D pos,
             int nbFleches) {
@@ -35,34 +34,46 @@ public class Archer extends Personnage implements Combattant {
     }
 
     /**
+     * Crée une copie de l'archer indiqué.
      *
-     * @param a archer à dupliquer
+     * @param a archer à copier
      */
     public Archer(Archer a) {
         super(a);
         this.nbFleches = 4;
     }
 
+    /**
+     * Crée un archer avec les caractéristiques par défaut et huit flèches.
+     */
     public Archer() {
         super();
         this.nbFleches = 8;
     }
 
+    /**
+     * Retourne le nombre de flèches restantes.
+     *
+     * @return nombre de flèches
+     */
     public int getNbFleches() {
         return nbFleches;
     }
 
+    /**
+     * Définit le nombre de flèches restantes.
+     *
+     * @param nbFleches nouveau nombre de flèches
+     */
     public void setNbFleches(int nbFleches) {
         this.nbFleches = nbFleches;
     }
 
     /**
+     * Attaque une créature au corps à corps ou à distance selon leur éloignement.
+     * Une attaque à distance consomme une flèche.
      *
-     * @param C créature à attaquer
-     * @throws Exception si l'archer n'a plus de flèches
-     *                   Permet à l'archer d'attaquer une créature, que ce soit à
-     *                   distance ou au corps à corps, en fonction de la distance
-     *                   entre l'archer et la créature.
+     * @param C créature visée
      */
     public void combattre(Creature C) {
         // Combat Rapproché
@@ -119,19 +130,26 @@ public class Archer extends Personnage implements Combattant {
     }
 
     /**
-     * Affiche la lettre représentant l'archer sur la carte.
-     *
+     * Affiche le symbole de l'archer sur la carte.
      */
     public void aff_lettre() {
         System.out.print(" A ");
     }
 
+    /**
+     * Affiche les informations principales de l'archer en vue d'un .
+     */
     public void afficheDetails() {
         System.out.println("Archer : " + this.getNom() + ", Points de vie : " + this.getPtVie() + ", Position : ("
                 + this.getPos().getX() + ", " + this.getPos().getY() + ")");
 
     }
 
+    /**
+     * Retourne les données de l'archer au format de sauvegarde du jeu.
+     *
+     * @return chaîne contenant le type et l'état de l'archer
+     */
     public String info_svg() {
         return ("Archer " + this.getNom() + " " + this.getPtVie() + " " + this.getDegAtt() + " " + this.getPtPar() + " "
                 + this.getPageAtt() + " " + this.getPagePar() + " " + this.getDistAttMax() + " " + this.getPos().getX()

@@ -4,14 +4,30 @@ import java.io.File;
 import java.util.Scanner;
 
 /**
+ * Point d'entrée de l'application et boucle de sélection de partie.
  *
  * @author Maxence SCHWERER et Corentin GODARD
  */
 public class ProjetTP {
 
+    /** Lecteur des choix saisis dans la console. */
     private static Scanner sc = new Scanner(System.in); 
+    /** Monde associé à la partie courante. */
     private static World monde;
+    /** Indique si la boucle de jeu est active. */
     private static boolean partieLancee = false;
+
+    /**
+     * Crée l'objet associé au point d'entrée de l'application.
+     */
+    public ProjetTP() {
+    }
+
+    /**
+     * Démarre une nouvelle partie ou charge une sauvegarde, puis lance le jeu.
+     *
+     * @param args arguments de ligne de commande (non utilisés)
+     */
     public static void main(String[] args) {
         System.out.println("Et c'est parti !");
         System.out.println("---Démarrage---");
